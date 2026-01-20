@@ -1,32 +1,32 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
-import { motion, HTMLMotionProps } from 'motion/react';
+import { useEffect, useState, useRef } from "react";
+import { motion, HTMLMotionProps } from "motion/react";
 
 const styles = {
   wrapper: {
-    display: 'inline-block',
-    whiteSpace: 'pre-wrap'
+    display: "inline-block",
+    whiteSpace: "pre-wrap",
   },
   srOnly: {
-    position: 'absolute' as 'absolute',
-    width: '1px',
-    height: '1px',
+    position: "absolute" as const,
+    width: "1px",
+    height: "1px",
     padding: 0,
-    margin: '-1px',
-    overflow: 'hidden',
-    clip: 'rect(0,0,0,0)',
-    border: 0
-  }
+    margin: "-1px",
+    overflow: "hidden",
+    clip: "rect(0,0,0,0)",
+    border: 0,
+  },
 };
 
-interface BlurTextProps extends HTMLMotionProps<'span'> {
+interface BlurTextProps extends HTMLMotionProps<"span"> {
   text: string;
   duration?: number;
   delay?: number;
   initialBlur?: number;
-  animateOn?: 'view' | 'hover' | 'both';
-  revealDirection?: 'all' | 'sequential' | 'word';
+  animateOn?: "view" | "hover" | "both";
+  revealDirection?: "all" | "sequential" | "word";
   className?: string;
   parentClassName?: string;
   staggerDelay?: number;
@@ -37,10 +37,10 @@ export default function BlurText({
   duration = 1000,
   delay = 0,
   initialBlur = 10,
-  animateOn = 'view',
-  revealDirection = 'all',
-  className = '',
-  parentClassName = '',
+  animateOn = "view",
+  revealDirection = "all",
+  className = "",
+  parentClassName = "",
   staggerDelay = 0.1,
   ...props
 }: BlurTextProps) {
@@ -49,10 +49,10 @@ export default function BlurText({
   const containerRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (animateOn !== 'view' && animateOn !== 'both') return;
+    if (animateOn !== "view" && animateOn !== "both") return;
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting && !hasAnimated) {
           setTimeout(() => {
             setIsActive(true);
@@ -64,11 +64,14 @@ export default function BlurText({
 
     const observerOptions = {
       root: null,
-      rootMargin: '0px',
-      threshold: 0.1
+      rootMargin: "0px",
+      threshold: 0.1,
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
     const currentRef = containerRef.current;
     if (currentRef) {
       observer.observe(currentRef);
@@ -82,38 +85,38 @@ export default function BlurText({
   }, [animateOn, hasAnimated, delay]);
 
   const hoverProps =
-    animateOn === 'hover' || animateOn === 'both'
+    animateOn === "hover" || animateOn === "both"
       ? {
           onMouseEnter: () => {
             setTimeout(() => setIsActive(true), delay);
           },
-          onMouseLeave: () => setIsActive(false)
+          onMouseLeave: () => setIsActive(false),
         }
       : {};
 
   // All at once animation
-  if (revealDirection === 'all') {
+  if (revealDirection === "all") {
     return (
-      <motion.span 
+      <motion.span
         className={`${parentClassName} ${className}`}
-        ref={containerRef} 
-        style={styles.wrapper} 
-        {...hoverProps} 
+        ref={containerRef}
+        style={styles.wrapper}
+        {...hoverProps}
         {...props}
       >
         <span style={styles.srOnly}>{text}</span>
-        
+
         <motion.span
           aria-hidden="true"
           initial={{ filter: `blur(${initialBlur}px)`, opacity: 0 }}
           animate={
             isActive
-              ? { filter: 'blur(0px)', opacity: 1 }
+              ? { filter: "blur(0px)", opacity: 1 }
               : { filter: `blur(${initialBlur}px)`, opacity: 0 }
           }
           transition={{
             duration: duration / 1000,
-            ease: 'easeOut'
+            ease: "easeOut",
           }}
         >
           {text}
@@ -123,19 +126,19 @@ export default function BlurText({
   }
 
   // Word-by-word animation
-  if (revealDirection === 'word') {
-    const words = text.split(' ');
-    
+  if (revealDirection === "word") {
+    const words = text.split(" ");
+
     return (
-      <motion.span 
+      <motion.span
         className={parentClassName}
-        ref={containerRef} 
-        style={styles.wrapper} 
-        {...hoverProps} 
+        ref={containerRef}
+        style={styles.wrapper}
+        {...hoverProps}
         {...props}
       >
         <span style={styles.srOnly}>{text}</span>
-        
+
         <span aria-hidden="true">
           {words.map((word, index) => (
             <motion.span
@@ -144,15 +147,15 @@ export default function BlurText({
               initial={{ filter: `blur(${initialBlur}px)`, opacity: 0 }}
               animate={
                 isActive
-                  ? { filter: 'blur(0px)', opacity: 1 }
+                  ? { filter: "blur(0px)", opacity: 1 }
                   : { filter: `blur(${initialBlur}px)`, opacity: 0 }
               }
               transition={{
                 duration: duration / 1000,
-                ease: 'easeOut',
-                delay: isActive ? (index * staggerDelay) : 0
+                ease: "easeOut",
+                delay: isActive ? index * staggerDelay : 0,
               }}
-              style={{ display: 'inline-block', marginRight: '0.25em' }}
+              style={{ display: "inline-block", marginRight: "0.25em" }}
             >
               {word}
             </motion.span>
@@ -164,34 +167,34 @@ export default function BlurText({
 
   // Sequential character-by-character animation
   return (
-    <motion.span 
+    <motion.span
       className={parentClassName}
-      ref={containerRef} 
-      style={styles.wrapper} 
-      {...hoverProps} 
+      ref={containerRef}
+      style={styles.wrapper}
+      {...hoverProps}
       {...props}
     >
       <span style={styles.srOnly}>{text}</span>
-      
+
       <span aria-hidden="true">
-        {text.split('').map((char, index) => (
+        {text.split("").map((char, index) => (
           <motion.span
             key={index}
             className={className}
             initial={{ filter: `blur(${initialBlur}px)`, opacity: 0 }}
             animate={
               isActive
-                ? { filter: 'blur(0px)', opacity: 1 }
+                ? { filter: "blur(0px)", opacity: 1 }
                 : { filter: `blur(${initialBlur}px)`, opacity: 0 }
             }
             transition={{
               duration: duration / 1000,
-              ease: 'easeOut',
-              delay: isActive ? (index * 0.03) : 0
+              ease: "easeOut",
+              delay: isActive ? index * 0.03 : 0,
             }}
-            style={{ display: 'inline-block' }}
+            style={{ display: "inline-block" }}
           >
-            {char === ' ' ? '\u00A0' : char}
+            {char === " " ? "\u00A0" : char}
           </motion.span>
         ))}
       </span>
