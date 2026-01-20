@@ -1,65 +1,377 @@
-import Image from "next/image";
+"use client";
+
+import BlurText from "@/components/BlurText";
 
 export default function Home() {
+  const motto = "Building technologies to augment human intelligence.";
+  const descriptionLine1 = "applied AI engineer, cognitive science researcher, &";
+  const descriptionLine2 = "human‑centered technologist.";
+
+  const aboutIntro = "I'm passionate about creating AI systems that enhance rather than replace human capabilities. My work sits at the intersection of machine learning, cognitive science, and user experience—exploring how technology can amplify our natural intelligence while remaining deeply human-centered.";
+
+  const expertiseAreas = [
+    {
+      title: "Applied AI & ML",
+      description: "Building practical AI systems with focus on real-world impact"
+    },
+    {
+      title: "Cognitive Science",
+      description: "Understanding human cognition to inform better technology"
+    },
+    {
+      title: "Human-Centered Design",
+      description: "Creating interfaces that feel natural and intuitive"
+    },
+    {
+      title: "Research & Development",
+      description: "Bridging academic insights with practical applications"
+    }
+  ];
+
+  const education = [
+    {
+      institution: "Case Western Reserve University",
+      degree: "Bachelor of Science in Computer Science",
+      period: "2024 - Present",
+      logo: "/cwru-seal.avif" // Add your college logo path
+    },
+    {
+      institution: "Deerfield High School",
+      degree: "High School Diploma",
+      period: "2020 - 2024",
+      logo: "/dhs-logo.png" // Add your high school logo path
+    }
+  ];
+
+  const projects = [
+    {
+      title: "Neural Interface Framework",
+      description: "An open-source framework for building intuitive brain-computer interfaces using EEG signals. Implements real-time signal processing and ML models for gesture recognition.",
+      tech: ["Python", "TensorFlow", "React", "WebSockets"],
+      github: "https://github.com",
+      demo: "https://demo.com",
+      featured: true
+    },
+    {
+      title: "Cognitive Load Monitor",
+      description: "Real-time cognitive load assessment tool using eye-tracking and behavioral data to optimize learning experiences.",
+      tech: ["TypeScript", "Next.js", "Python", "FastAPI"],
+      github: "https://github.com",
+      featured: false
+    },
+    {
+      title: "Adaptive UI Engine",
+      description: "Machine learning system that adapts user interfaces based on individual interaction patterns and accessibility needs.",
+      tech: ["React", "Node.js", "PostgreSQL", "scikit-learn"],
+      github: "https://github.com",
+      demo: "https://demo.com",
+      featured: false
+    },
+    {
+      title: "Research Paper Explorer",
+      description: "AI-powered tool for navigating academic literature with semantic search and interactive knowledge graphs.",
+      tech: ["Python", "OpenAI", "D3.js", "Neo4j"],
+      github: "https://github.com",
+      featured: true
+    }
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div className="relative overflow-hidden bg-white font-sans dark:bg-zinc-950">
+      {/* Dot background from reference */}
+      <div className="absolute inset-0 bg-size-[20px_20px] bg-[radial-gradient(#d4d4d4_1px,transparent_1px)] dark:bg-[radial-gradient(#404040_1px,transparent_1px)]"></div>
+      <div className="pointer-events-none absolute inset-0 bg-white mask-[radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
+
+      {/* Content */}
+      <main className="relative z-10 flex w-full flex-col items-center px-6">
+        {/* Hero Section */}
+        <section className="flex min-h-screen w-full flex-col items-center justify-center gap-4 text-center">
+          <h1 className="max-w-2xl text-balance text-3xl font-medium italic tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
+            <BlurText 
+              text={motto}
+              animateOn="view"
+              revealDirection="word"
+              duration={750}
+              initialBlur={10}
+              staggerDelay={0.05}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+          </h1>
+          <p className="max-w-2xl text-balance text-sm font-mono tracking-tight text-zinc-700 sm:text-base dark:text-zinc-300">
+            <BlurText 
+              text={descriptionLine1}
+              animateOn="view"
+              revealDirection="word"
+              duration={500}
+              initialBlur={8}
+              staggerDelay={0.04}
+              delay={300}
+            />
+            <br />
+            <BlurText 
+              text={descriptionLine2}
+              animateOn="view"
+              revealDirection="word"
+              duration={500}
+              initialBlur={8}
+              staggerDelay={0.04}
+              delay={400}
+            />
+          </p>
+        </section>
+
+        {/* About Section */}
+        <section className="w-full max-w-4xl py-20 sm:py-24">
+          <div className="flex flex-col gap-12">
+            {/* Section Heading */}
+            <h2 className="text-center text-2xl font-medium tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
+              <BlurText 
+                text="About"
+                animateOn="view"
+                revealDirection="word"
+                duration={600}
+                initialBlur={10}
+                staggerDelay={0.05}
+              />
+            </h2>
+
+            {/* Introduction */}
+            <p className="text-center text-base leading-relaxed text-zinc-700 sm:text-lg dark:text-zinc-300">
+              <BlurText 
+                text={aboutIntro}
+                animateOn="view"
+                revealDirection="word"
+                duration={600}
+                initialBlur={8}
+                staggerDelay={0.02}
+                delay={200}
+              />
+            </p>
+
+            {/* Education */}
+            <div className="flex flex-col gap-6 sm:gap-8">
+              {education.map((edu, index) => (
+                <div 
+                  key={edu.institution}
+                  className="flex items-center gap-6 rounded-lg border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                >
+                  {/* Logo */}
+                  <div className="shrink-0">
+                    <div className="h-16 w-16 overflow-hidden rounded-lg bg-white dark:bg-white">
+                      <img 
+                        src={edu.logo} 
+                        alt={`${edu.institution} logo`}
+                        className="h-full w-full object-contain p-2"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex flex-1 flex-col gap-1">
+                    <h3 className="font-medium tracking-tight text-zinc-900 dark:text-zinc-50">
+                      <BlurText 
+                        text={edu.institution}
+                        animateOn="view"
+                        revealDirection="word"
+                        duration={500}
+                        initialBlur={8}
+                        staggerDelay={0.03}
+                        delay={400 + index * 150}
+                      />
+                    </h3>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      <BlurText 
+                        text={edu.degree}
+                        animateOn="view"
+                        revealDirection="word"
+                        duration={500}
+                        initialBlur={6}
+                        staggerDelay={0.02}
+                        delay={500 + index * 150}
+                      />
+                    </p>
+                    <p className="font-mono text-xs text-zinc-500 dark:text-zinc-500">
+                      <BlurText 
+                        text={edu.period}
+                        animateOn="view"
+                        revealDirection="word"
+                        duration={500}
+                        initialBlur={6}
+                        staggerDelay={0.02}
+                        delay={550 + index * 150}
+                      />
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Expertise Areas - simplified without cards */}
+            <div className="flex flex-wrap justify-center gap-3">
+              {expertiseAreas.map((area, index) => (
+                <span 
+                  key={area.title}
+                  className="rounded-full border border-zinc-200 bg-white/50 px-4 py-2 font-mono text-sm text-zinc-700 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                >
+                  <BlurText 
+                    text={area.title}
+                    animateOn="view"
+                    revealDirection="word"
+                    duration={500}
+                    initialBlur={6}
+                    staggerDelay={0.02}
+                    delay={700 + index * 100}
+                  />
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Projects Section */}
+        <section className="w-full max-w-6xl py-20 sm:py-24">
+          <div className="flex flex-col gap-12">
+            {/* Section Heading */}
+            <h2 className="text-center text-2xl font-medium tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
+              <BlurText 
+                text="Featured Projects"
+                animateOn="view"
+                revealDirection="word"
+                duration={600}
+                initialBlur={10}
+                staggerDelay={0.05}
+              />
+            </h2>
+
+            {/* Bento Grid */}
+            <div className="grid auto-rows-fr grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project, index) => (
+                <div 
+                  key={project.title}
+                  className={`group relative flex flex-col justify-between rounded-lg border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80 ${
+                    project.featured ? 'md:col-span-2 lg:col-span-2' : ''
+                  }`}
+                >
+                  {/* Project Info */}
+                  <div className="flex flex-col gap-4">
+                    <div>
+                      <h3 className="mb-3 text-lg font-medium tracking-tight text-zinc-900 dark:text-zinc-50">
+                        <BlurText 
+                          text={project.title}
+                          animateOn="view"
+                          revealDirection="word"
+                          duration={500}
+                          initialBlur={8}
+                          staggerDelay={0.03}
+                          delay={300 + index * 100}
+                        />
+                      </h3>
+                      <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        <BlurText 
+                          text={project.description}
+                          animateOn="view"
+                          revealDirection="word"
+                          duration={500}
+                          initialBlur={6}
+                          staggerDelay={0.01}
+                          delay={400 + index * 100}
+                        />
+                      </p>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((tech, techIndex) => (
+                        <span 
+                          key={tech}
+                          className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                          style={{
+                            opacity: 0,
+                            animation: `fadeIn 0.5s ease-out ${0.6 + index * 0.1 + techIndex * 0.05}s forwards`
+                          }}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Links */}
+                  <div className="mt-6 flex gap-4">
+                    {project.github && (
+                      <a 
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-sm text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
+                      >
+                        GitHub →
+                      </a>
+                    )}
+                    {project.demo && (
+                      <a 
+                        href={project.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-sm text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
+                      >
+                        Live Demo →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="relative z-10 w-full border-t border-zinc-200 dark:border-zinc-800">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-12 sm:flex-row sm:justify-between">
+          {/* Copyright */}
+          <div className="text-center text-sm text-zinc-600 dark:text-zinc-400 sm:text-left">
+            © {new Date().getFullYear()} All rights reserved.
+          </div>
+
+          {/* Social Links */}
+          <div className="flex gap-6">
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              aria-label="GitHub"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              aria-label="LinkedIn"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              aria-label="Twitter"
+            >
+              Twitter
+            </a>
+            <a
+              href="mailto:your.email@example.com"
+              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              aria-label="Email"
+            >
+              Email
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
