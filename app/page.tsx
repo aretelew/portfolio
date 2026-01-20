@@ -1,6 +1,7 @@
 "use client";
 
 import BlurText from "@/components/BlurText";
+import DotBackground from "@/components/DotBackground";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -102,9 +103,8 @@ export default function Home() {
 
   return (
     <div className="relative overflow-hidden bg-white font-sans dark:bg-zinc-950">
-      {/* Dot background from reference */}
-      <div className="absolute inset-0 bg-size-[20px_20px] bg-[radial-gradient(#d4d4d4_1px,transparent_1px)] dark:bg-[radial-gradient(#404040_1px,transparent_1px)]"></div>
-      <div className="pointer-events-none absolute inset-0 bg-white mask-[radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
+      {/* Dot background with hover effect */}
+      <DotBackground />
 
       {/* Content */}
       <main className="relative z-10 flex w-full flex-col items-center px-6">
