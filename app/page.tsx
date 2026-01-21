@@ -4,9 +4,12 @@ import BlurText from "@/components/BlurText";
 import DotBackground from "@/components/DotBackground";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { Brain, Users, Lightbulb, GraduationCap, Mail, FileText, ArrowDown } from "lucide-react";
+import { SiReact, SiNextdotjs, SiTypescript, SiPython, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiLinkedin, SiX } from "react-icons/si";
 
 export default function Home() {
   const [showScrollArrow, setShowScrollArrow] = useState(true);
+  const [asciiArt, setAsciiArt] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +24,13 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    fetch("/ascii-portrait.txt")
+      .then((res) => res.text())
+      .then((text) => setAsciiArt(text))
+      .catch((err) => console.error("Failed to load ASCII art:", err));
+  }, []);
+
   const motto = "Building technologies to augment human intelligence.";
   const descriptionLine1 =
     "applied AI engineer, cognitive science researcher, &";
@@ -33,20 +43,53 @@ export default function Home() {
     {
       title: "Applied AI & ML",
       description:
-        "Building practical AI systems with focus on real-world impact",
+        "Building practical AI systems that deliver measurable real-world value.",
+      highlights: [
+        "Model prototyping, evaluation, and deployment",
+        "Human-in-the-loop workflows and feedback loops",
+      ],
+      icon: Brain,
     },
     {
       title: "Cognitive Science",
-      description: "Understanding human cognition to inform better technology",
+      description:
+        "Understanding cognition to design systems that feel intuitive and adaptive.",
+      highlights: [
+        "Attention, memory, and decision-making research",
+        "Behavioral insights applied to product design",
+      ],
+      icon: GraduationCap,
     },
     {
       title: "Human-Centered Design",
-      description: "Creating interfaces that feel natural and intuitive",
+      description:
+        "Designing interfaces that balance clarity, trust, and usability.",
+      highlights: [
+        "Interaction design for complex AI workflows",
+        "Accessibility and inclusive design practices",
+      ],
+      icon: Users,
     },
     {
       title: "Research & Development",
-      description: "Bridging academic insights with practical applications",
+      description:
+        "Bridging academic insights with pragmatic engineering decisions.",
+      highlights: [
+        "Rapid experiments and validation cycles",
+        "Translating research into deployable systems",
+      ],
+      icon: Lightbulb,
     },
+  ];
+
+  const techStack = [
+    { name: "React", icon: SiReact },
+    { name: "Next.js", icon: SiNextdotjs },
+    { name: "TypeScript", icon: SiTypescript },
+    { name: "Python", icon: SiPython },
+    { name: "PyTorch", icon: SiPytorch },
+    { name: "TensorFlow", icon: SiTensorflow },
+    { name: "Node.js", icon: SiNodedotjs },
   ];
 
   const education = [
@@ -166,121 +209,205 @@ export default function Home() {
           </div>
         </section>
 
-        {/* About Section */}
-        <section className="w-full max-w-4xl py-20 sm:py-24">
-          <div className="flex flex-col gap-12">
-            {/* Section Heading */}
-            <h2 className="text-center text-2xl font-medium tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
-              <BlurText
-                text="About"
-                animateOn="view"
-                revealDirection="word"
-                duration={600}
-                initialBlur={10}
-                staggerDelay={0.05}
-              />
-            </h2>
-
-            {/* Introduction */}
-            <p className="text-center text-base leading-relaxed text-zinc-700 sm:text-lg dark:text-zinc-300">
-              <BlurText
-                text={aboutIntro}
-                animateOn="view"
-                revealDirection="word"
-                duration={600}
-                initialBlur={8}
-                staggerDelay={0.02}
-                delay={200}
-              />
-            </p>
-
-            {/* Education */}
-            <div className="flex flex-col gap-6 sm:gap-8">
-              {education.map((edu, index) => (
-                <div
-                  key={edu.institution}
-                  className="flex items-center gap-6 rounded-lg border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
-                >
-                  {/* Logo */}
-                  <div className="shrink-0">
-                    <div className="h-16 w-16 overflow-hidden rounded-lg bg-white dark:bg-white">
-                      <Image
-                        src={edu.logo}
-                        alt={`${edu.institution} logo`}
-                        width={64}
-                        height={64}
-                        className="h-full w-full object-contain p-2"
-                      />
+        {/* About Section - Redesigned with Asymmetric Layout */}
+        <section className="w-full max-w-7xl py-20 sm:py-24">
+          {/* Top Row: ASCII Art + About Text */}
+          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[auto_1fr] lg:gap-15">
+            {/* Left Column - ASCII Art */}
+            <div className="flex flex-col gap-8">
+              <div className="relative">
+                <div className="relative aspect-square w-full max-w-xs mx-auto lg:mx-0">
+                  <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950">
+                    <div className="relative flex h-full w-full items-center justify-center p-1">
+                      <pre className="font-mono text-[0.08rem] leading-[0.08rem] text-zinc-300 whitespace-pre scale-100 origin-center">
+                        {asciiArt || "Loading..."}
+                      </pre>
                     </div>
                   </div>
-
-                  {/* Info */}
-                  <div className="flex flex-1 flex-col gap-1">
-                    <h3 className="font-medium tracking-tight text-zinc-900 dark:text-zinc-50">
-                      <BlurText
-                        text={edu.institution}
-                        animateOn="view"
-                        revealDirection="word"
-                        duration={500}
-                        initialBlur={8}
-                        staggerDelay={0.03}
-                        delay={400 + index * 150}
-                      />
-                    </h3>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      <BlurText
-                        text={edu.degree}
-                        animateOn="view"
-                        revealDirection="word"
-                        duration={500}
-                        initialBlur={6}
-                        staggerDelay={0.02}
-                        delay={500 + index * 150}
-                      />
-                    </p>
-                    <p className="font-mono text-xs text-zinc-500 dark:text-zinc-500">
-                      <BlurText
-                        text={edu.period}
-                        animateOn="view"
-                        revealDirection="word"
-                        duration={500}
-                        initialBlur={6}
-                        staggerDelay={0.02}
-                        delay={550 + index * 150}
-                      />
-                    </p>
-                  </div>
                 </div>
-              ))}
+              </div>
             </div>
 
-            {/* Expertise Areas - simplified without cards */}
-            <div className="flex flex-wrap justify-center gap-3">
-              {expertiseAreas.map((area, index) => (
-                <span
-                  key={area.title}
-                  className="rounded-full border border-zinc-200 bg-white/50 px-4 py-2 font-mono text-sm text-zinc-700 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
-                >
+            {/* Right Column - About Text */}
+            <div className="flex flex-col gap-6">
+              <div className="space-y-4">
+                <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
                   <BlurText
-                    text={area.title}
+                    text="About"
                     animateOn="view"
                     revealDirection="word"
-                    duration={500}
-                    initialBlur={6}
-                    staggerDelay={0.02}
-                    delay={700 + index * 100}
+                    duration={600}
+                    initialBlur={10}
+                    staggerDelay={0.05}
                   />
-                </span>
-              ))}
+                </h2>
+                <div className="space-y-3">
+                  <p className="text-lg leading-relaxed text-zinc-700 sm:text-xl dark:text-zinc-300">
+                    <BlurText
+                      text="I'm passionate about creating AI systems that enhance rather than replace human capabilities."
+                      animateOn="view"
+                      revealDirection="word"
+                      duration={600}
+                      initialBlur={8}
+                      staggerDelay={0.02}
+                      delay={200}
+                    />
+                  </p>
+                  <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    <BlurText
+                      text="My work sits at the intersection of machine learning, cognitive science, and user experience—exploring how technology can amplify our natural intelligence while remaining deeply human-centered."
+                      animateOn="view"
+                      revealDirection="word"
+                      duration={600}
+                      initialBlur={6}
+                      staggerDelay={0.02}
+                      delay={400}
+                    />
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Below Row: Expertise + Education */}
+          <div className="mt-12 flex flex-col gap-10">
+            {/* Expertise Areas Grid with Icons */}
+            <div>
+              <h3 className="mb-6 text-lg font-medium text-zinc-900 dark:text-zinc-50">
+                Expertise Areas
+              </h3>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {expertiseAreas.map((area, index) => {
+                  const Icon = area.icon;
+                  return (
+                    <div
+                      key={area.title}
+                      className="group relative rounded-xl border border-zinc-200 bg-white/50 p-4 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                      style={{
+                        opacity: 0,
+                        animation: `fadeIn 0.5s ease-out ${0.6 + index * 0.1}s forwards`,
+                      }}
+                    >
+                      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 transition-transform group-hover:scale-110">
+                        <Icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
+                      </div>
+                      <h4 className="mb-2 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                        {area.title}
+                      </h4>
+                      <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        {area.description}
+                      </p>
+                      <div className="mt-3 space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
+                        {area.highlights.map((item) => (
+                          <div key={item} className="flex gap-2">
+                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+                            <span>{item}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Education */}
+            <div>
+              <h3 className="mb-5 text-lg font-medium text-zinc-900 dark:text-zinc-50">
+                Education
+              </h3>
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                {education.map((edu, index) => (
+                  <div
+                    key={edu.institution}
+                    className="group relative rounded-xl border border-zinc-200 bg-white/60 p-5 shadow-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="shrink-0">
+                        <div className="h-14 w-14 overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-white">
+                          <Image
+                            src={edu.logo}
+                            alt={`${edu.institution} logo`}
+                            width={56}
+                            height={56}
+                            className="h-full w-full object-contain p-2"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-1 flex-col gap-2">
+                        <div className="flex items-center justify-between gap-3">
+                          <span className="inline-flex items-center rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1 font-mono text-xs font-medium text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
+                            <BlurText
+                              text={edu.period}
+                              animateOn="view"
+                              revealDirection="word"
+                              duration={400}
+                              initialBlur={4}
+                              staggerDelay={0.02}
+                              delay={300 + index * 150}
+                            />
+                          </span>
+                        </div>
+                        <h4 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+                          <BlurText
+                            text={edu.institution}
+                            animateOn="view"
+                            revealDirection="word"
+                            duration={500}
+                            initialBlur={8}
+                            staggerDelay={0.03}
+                            delay={400 + index * 150}
+                          />
+                        </h4>
+                        <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                          <BlurText
+                            text={edu.degree}
+                            animateOn="view"
+                            revealDirection="word"
+                            duration={500}
+                            initialBlur={6}
+                            staggerDelay={0.02}
+                            delay={500 + index * 150}
+                          />
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Call-to-Action Buttons */}
+          <div className="mt-10 flex flex-wrap gap-4">
+            <button
+              onClick={() => {
+                const footer = document.querySelector("footer");
+                footer?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="group flex items-center gap-2 rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl dark:bg-zinc-50 dark:text-zinc-900"
+            >
+              <Mail className="h-4 w-4 transition-transform group-hover:rotate-12" />
+              Get in Touch
+            </button>
+            
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white/50 px-6 py-3 font-medium text-zinc-900 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+            >
+              <FileText className="h-4 w-4" />
+              View Resume
+            </a>
           </div>
         </section>
 
         {/* Projects Section */}
-        <section className="w-full max-w-6xl py-20 sm:py-24">
+        <section className="w-full max-w-7xl py-20 sm:py-24">
           <div className="flex flex-col gap-12">
             {/* Section Heading */}
-            <h2 className="text-center text-2xl font-medium tracking-tight text-zinc-900 sm:text-3xl dark:text-zinc-50">
+            <h2 className="text-center text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
               <BlurText
                 text="Featured Projects"
                 animateOn="view"
@@ -388,35 +515,35 @@ export default function Home() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
               aria-label="GitHub"
             >
-              GitHub
+              <SiGithub className="h-5 w-5" />
             </a>
             <a
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
               aria-label="LinkedIn"
             >
-              LinkedIn
+              <SiLinkedin className="h-5 w-5" />
             </a>
             <a
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
               aria-label="Twitter"
             >
-              Twitter
+              <SiX className="h-5 w-5" />
             </a>
             <a
               href="mailto:your.email@example.com"
-              className="text-sm text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
               aria-label="Email"
             >
-              Email
+              <Mail className="h-5 w-5" />
             </a>
           </div>
         </div>
