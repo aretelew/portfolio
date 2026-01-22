@@ -34,6 +34,7 @@ import { SiSiemensNx } from "@/components/SiSiemensNx";
 export default function Home() {
   const [showScrollArrow, setShowScrollArrow] = useState(true);
   const [asciiArt, setAsciiArt] = useState("");
+  const [emailCopied, setEmailCopied] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,7 +82,7 @@ export default function Home() {
       icon: Code,
     },
     {
-      title: "Robotics & Mechanical Design",
+      title: "Mechanical Design",
       description:
         "Designing and manufacturing autonomous systems with CAD and advanced fabrication.",
       highlights: [
@@ -151,7 +152,7 @@ export default function Home() {
       title: "Autonomous FPV Drone",
       description:
         "Custom-built drone with programmed microelectronics and autonomous return-to-home capabilities using Betaflight firmware.",
-      tech: ["Betaflight", "Electronics", "SolidWorks", "C++"],
+      tech: ["Betaflight", "Microelectronics"],
       featured: false,
     },
     {
@@ -276,7 +277,7 @@ export default function Home() {
                   </p>
                   <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
                     <BlurText
-                      text="My work sits at the intersection of machine learning, cognitive science, and user experience—exploring how technology can amplify our natural intelligence while remaining deeply human-centered. I believe that the most impactful technologies are those that seamlessly integrate into our lives, reducing cognitive load rather than adding to it. By combining data-driven insights with principles of psychology, I strive to build interfaces that feel like natural extensions of the mind."
+                      text="My work spans quantitative research, full-stack development, and mechanical design—bridging the gap between intelligent algorithms and real-world systems. From engineering NLP pipelines that extract market insights from hundreds of thousands of documents, to architecting performant web applications, to designing precision components for autonomous systems, I focus on building technology that seamlessly integrates computational power with practical utility. Whether optimizing feature engineering processes or crafting intuitive user interfaces, I aim to create solutions that feel effortless while solving complex problems beneath the surface."
                       animateOn="view"
                       revealDirection="word"
                       duration={600}
@@ -422,14 +423,20 @@ export default function Home() {
           {/* Call-to-Action Buttons */}
           <div className="mt-10 flex flex-wrap gap-4">
             <button
-              onClick={() => {
-                const footer = document.querySelector("footer");
-                footer?.scrollIntoView({ behavior: "smooth" });
+              onClick={async () => {
+                const email = "aretelew@gmail.com";
+                try {
+                  await navigator.clipboard.writeText(email);
+                  setEmailCopied(true);
+                  setTimeout(() => setEmailCopied(false), 2000);
+                } catch (err) {
+                  console.error("Failed to copy email:", err);
+                }
               }}
-              className="group flex items-center gap-2 rounded-lg bg-zinc-900 px-6 py-3 font-medium text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl dark:bg-zinc-50 dark:text-zinc-900"
+              className="group relative flex items-center cursor-pointer gap-2 rounded-lg border-2 border-zinc-900 bg-zinc-900 px-6 py-3 font-medium text-white shadow-lg transition-all hover:border-zinc-400 hover:shadow-xl dark:border-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:border-zinc-700"
             >
               <Mail className="h-4 w-4 transition-transform group-hover:rotate-12" />
-              Get in Touch
+              {emailCopied ? "Email Copied!" : "Get in Touch"}
             </button>
 
             <a
@@ -574,7 +581,7 @@ export default function Home() {
             </a>
 
             <a
-              href="mailto:your.email@example.com"
+              href="mailto:aretelew@gmail.com"
               className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
               aria-label="Email"
             >
