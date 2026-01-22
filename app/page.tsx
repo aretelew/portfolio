@@ -4,8 +4,32 @@ import BlurText from "@/components/BlurText";
 import DotBackground from "@/components/DotBackground";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Brain, Users, Lightbulb, GraduationCap, Mail, FileText, ArrowDown } from "lucide-react";
-import { SiReact, SiNextdotjs, SiTypescript, SiPython, SiPytorch, SiTensorflow, SiNodedotjs, SiGithub, SiLinkedin, SiX } from "react-icons/si";
+import {
+  Brain,
+  Users,
+  Lightbulb,
+  GraduationCap,
+  Mail,
+  FileText,
+  ArrowDown,
+  Code,
+  Cpu,
+} from "lucide-react";
+import { FaJava } from "react-icons/fa";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiPython,
+  SiPytorch,
+  SiNodedotjs,
+  SiGithub,
+  SiLinkedin,
+  SiX,
+  SiAnsys,
+  SiDassaultsystemes,
+} from "react-icons/si";
+import { SiSiemensNx } from "@/components/SiSiemensNx";
 
 export default function Home() {
   const [showScrollArrow, setShowScrollArrow] = useState(true);
@@ -31,116 +55,113 @@ export default function Home() {
       .catch((err) => console.error("Failed to load ASCII art:", err));
   }, []);
 
-  const motto = "Building technologies to augment human intelligence.";
-  const descriptionLine1 =
-    "applied AI engineer, cognitive science researcher, &";
-  const descriptionLine2 = "human‑centered technologist.";
+  const motto = "Engineering technologies for a smarter future.";
+  const descriptionLine1 = "software developer, quant researcher, &";
+  const descriptionLine2 = "design engineer.";
 
   const aboutIntro =
     "I'm passionate about creating AI systems that enhance rather than replace human capabilities. My work sits at the intersection of machine learning, cognitive science, and user experience—exploring how technology can amplify our natural intelligence while remaining deeply human-centered.";
 
   const expertiseAreas = [
     {
-      title: "Applied AI & ML",
+      title: "Quantitative Analysis & AI",
       description:
-        "Building practical AI systems that deliver measurable real-world value.",
+        "Developing NLP models and data pipelines to extract actionable market insights.",
       highlights: [
-        "Model prototyping, evaluation, and deployment",
-        "Human-in-the-loop workflows and feedback loops",
+        "Sentiment Analysis & NLP",
+        "Predictive Modeling & Feature Eng.",
       ],
       icon: Brain,
     },
     {
-      title: "Cognitive Science",
+      title: "Full-Stack Engineering",
       description:
-        "Understanding cognition to design systems that feel intuitive and adaptive.",
-      highlights: [
-        "Attention, memory, and decision-making research",
-        "Behavioral insights applied to product design",
-      ],
-      icon: GraduationCap,
+        "Architecting performant web systems and tools using modern TypeScript ecosystems.",
+      highlights: ["React, Next.js, & Vite", "System Optimization & UX"],
+      icon: Code,
     },
     {
-      title: "Human-Centered Design",
+      title: "Robotics & Mechanical Design",
       description:
-        "Designing interfaces that balance clarity, trust, and usability.",
+        "Designing and manufacturing autonomous systems with CAD and advanced fabrication.",
       highlights: [
-        "Interaction design for complex AI workflows",
-        "Accessibility and inclusive design practices",
+        "CAD (SolidWorks, NX) & Manufacturing",
+        "Autonomous Navigation Systems",
+      ],
+      icon: Cpu,
+    },
+    {
+      title: "Technical Leadership",
+      description:
+        "Leading cross-functional teams to deliver complex engineering and logistical projects.",
+      highlights: [
+        "Project Management & Strategy",
+        "Team Mentorship & Logistics",
       ],
       icon: Users,
-    },
-    {
-      title: "Research & Development",
-      description:
-        "Bridging academic insights with pragmatic engineering decisions.",
-      highlights: [
-        "Rapid experiments and validation cycles",
-        "Translating research into deployable systems",
-      ],
-      icon: Lightbulb,
     },
   ];
 
   const techStack = [
+    { name: "Python", icon: SiPython },
+    { name: "Java", icon: FaJava },
     { name: "React", icon: SiReact },
     { name: "Next.js", icon: SiNextdotjs },
     { name: "TypeScript", icon: SiTypescript },
-    { name: "Python", icon: SiPython },
     { name: "PyTorch", icon: SiPytorch },
-    { name: "TensorFlow", icon: SiTensorflow },
     { name: "Node.js", icon: SiNodedotjs },
+    { name: "Siemens NX", icon: SiSiemensNx },
+    { name: "Ansys", icon: SiAnsys },
+    { name: "Solidworks", icon: SiDassaultsystemes },
   ];
 
   const education = [
     {
       institution: "Case Western Reserve University",
-      degree: "Bachelor of Science in Computer Science",
+      degree: "BS Computer Science, Minor in Math & Mech. Design",
       period: "2024 - Present",
-      logo: "/cwru-seal.avif", // Add your college logo path
+      logo: "/cwru-seal.avif",
     },
     {
       institution: "Deerfield High School",
       degree: "High School Diploma",
       period: "2020 - 2024",
-      logo: "/dhs-logo.png", // Add your high school logo path
+      logo: "/dhs-logo.png",
     },
   ];
 
   const projects = [
     {
-      title: "Neural Interface Framework",
+      title: "Sentiment Analysis Engine",
       description:
-        "An open-source framework for building intuitive brain-computer interfaces using EEG signals. Implements real-time signal processing and ML models for gesture recognition.",
-      tech: ["Python", "TensorFlow", "React", "WebSockets"],
-      github: "https://github.com",
-      demo: "https://demo.com",
+        "Engineered a sentiment analysis data ingestion pipeline for 200,000+ earnings call documents. Architected a feature engineering process using TF-IDF and word embeddings to identify predictive market signals.",
+      tech: ["Python", "NLP", "TF-IDF", "Word Embeddings", "Machine Learning"],
+      github: "https://github.com/cwruquants/research",
       featured: true,
     },
     {
-      title: "Cognitive Load Monitor",
+      title: "Discord Message Summarizer",
       description:
-        "Real-time cognitive load assessment tool using eye-tracking and behavioral data to optimize learning experiences.",
-      tech: ["TypeScript", "Next.js", "Python", "FastAPI"],
-      github: "https://github.com",
-      featured: false,
-    },
-    {
-      title: "Adaptive UI Engine",
-      description:
-        "Machine learning system that adapts user interfaces based on individual interaction patterns and accessibility needs.",
-      tech: ["React", "Node.js", "PostgreSQL", "scikit-learn"],
-      github: "https://github.com",
-      demo: "https://demo.com",
-      featured: false,
-    },
-    {
-      title: "Research Paper Explorer",
-      description:
-        "AI-powered tool for navigating academic literature with semantic search and interactive knowledge graphs.",
-      tech: ["Python", "OpenAI", "D3.js", "Neo4j"],
-      github: "https://github.com",
+        "Developed a Discord bot utilizing LLMs to summarize messages over specific timeframes, helping users catch up quickly.",
+      tech: ["Python", "LLMs", "Heroku"],
+      github: "https://github.com/cwru-baja/baja-bot",
       featured: true,
+    },
+    {
+      title: "Autonomous FPV Drone",
+      description:
+        "Custom-built drone with programmed microelectronics and autonomous return-to-home capabilities using Betaflight firmware.",
+      tech: ["Betaflight", "Electronics", "SolidWorks", "C++"],
+      featured: false,
+    },
+    {
+      title: "CWRU Motorsports Website",
+      description:
+        "Complete redesign of the team website, increasing traffic by 18% with improved performance, maintainability, and user experience.",
+      tech: ["TypeScript", "Vite", "React", "Tailwind CSS"],
+      github: "https://github.com/aretelew",
+      demo: "https://cwrumotorsports.com",
+      featured: false,
     },
   ];
 
@@ -213,7 +234,7 @@ export default function Home() {
         <section className="w-full max-w-7xl py-20 sm:py-24">
           {/* Top Row: ASCII Art + About Text */}
           <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[auto_1fr] lg:gap-15">
-            {/* Left Column - ASCII Art */}
+            {/* Left Column - ASCII Art + Tools */}
             <div className="flex flex-col gap-8">
               <div className="relative">
                 <div className="relative aspect-square w-full max-w-xs mx-auto lg:mx-0">
@@ -255,7 +276,7 @@ export default function Home() {
                   </p>
                   <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
                     <BlurText
-                      text="My work sits at the intersection of machine learning, cognitive science, and user experience—exploring how technology can amplify our natural intelligence while remaining deeply human-centered."
+                      text="My work sits at the intersection of machine learning, cognitive science, and user experience—exploring how technology can amplify our natural intelligence while remaining deeply human-centered. I believe that the most impactful technologies are those that seamlessly integrate into our lives, reducing cognitive load rather than adding to it. By combining data-driven insights with principles of psychology, I strive to build interfaces that feel like natural extensions of the mind."
                       animateOn="view"
                       revealDirection="word"
                       duration={600}
@@ -269,6 +290,26 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Tools Row */}
+          <div className="mt-12">
+            <h3 className="mb-6 text-lg font-medium text-zinc-900 dark:text-zinc-50">
+              Tools
+            </h3>
+            <div className="flex flex-wrap gap-3">
+              {techStack.map((tech) => (
+                <div
+                  key={tech.name}
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white/50 px-4 py-3 transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                >
+                  <tech.icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
+                  <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                    {tech.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Below Row: Expertise + Education */}
           <div className="mt-12 flex flex-col gap-10">
             {/* Expertise Areas Grid with Icons */}
@@ -276,7 +317,7 @@ export default function Home() {
               <h3 className="mb-6 text-lg font-medium text-zinc-900 dark:text-zinc-50">
                 Expertise Areas
               </h3>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {expertiseAreas.map((area, index) => {
                   const Icon = area.icon;
                   return (
@@ -390,9 +431,9 @@ export default function Home() {
               <Mail className="h-4 w-4 transition-transform group-hover:rotate-12" />
               Get in Touch
             </button>
-            
+
             <a
-              href="/resume.pdf"
+              href="/retelewski-resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white/50 px-6 py-3 font-medium text-zinc-900 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
@@ -407,7 +448,7 @@ export default function Home() {
         <section className="w-full max-w-7xl py-20 sm:py-24">
           <div className="flex flex-col gap-12">
             {/* Section Heading */}
-            <h2 className="text-center text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
+            <h2 className="text-left text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
               <BlurText
                 text="Featured Projects"
                 animateOn="view"
@@ -419,12 +460,14 @@ export default function Home() {
             </h2>
 
             {/* Bento Grid */}
-            <div className="grid auto-rows-fr grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {projects.map((project, index) => (
                 <div
                   key={project.title}
-                  className={`group relative flex flex-col justify-between rounded-lg border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80 ${
-                    project.featured ? "md:col-span-2 lg:col-span-2" : ""
+                  className={`group relative flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80 ${
+                    index === 0 || index === 3
+                      ? "md:col-span-2"
+                      : "md:col-span-1"
                   }`}
                 >
                   {/* Project Info */}
@@ -483,14 +526,14 @@ export default function Home() {
                         GitHub →
                       </a>
                     )}
-                    {project.demo && (
+                    {"demo" in project && project.demo && (
                       <a
-                        href={project.demo}
+                        href={project.demo as string}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-mono text-sm text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
                       >
-                        Live Demo →
+                        Visit →
                       </a>
                     )}
                   </div>
@@ -512,7 +555,7 @@ export default function Home() {
           {/* Social Links */}
           <div className="flex gap-6">
             <a
-              href="https://github.com"
+              href="https://github.com/aretelew"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
@@ -521,7 +564,7 @@ export default function Home() {
               <SiGithub className="h-5 w-5" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/aretelew/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
@@ -529,15 +572,7 @@ export default function Home() {
             >
               <SiLinkedin className="h-5 w-5" />
             </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-              aria-label="Twitter"
-            >
-              <SiX className="h-5 w-5" />
-            </a>
+
             <a
               href="mailto:your.email@example.com"
               className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
