@@ -14,6 +14,10 @@ import {
   ArrowDown,
   Code,
   Cpu,
+  TrendingUp,
+  Wrench,
+  UserCheck,
+  Terminal,
 } from "lucide-react";
 import { FaJava } from "react-icons/fa";
 import {
@@ -72,14 +76,14 @@ export default function Home() {
         "Sentiment Analysis & NLP",
         "Predictive Modeling & Feature Eng.",
       ],
-      icon: Brain,
+      icon: TrendingUp,
     },
     {
       title: "Full-Stack Engineering",
       description:
         "Architecting performant web systems and tools using modern TypeScript ecosystems.",
       highlights: ["React, Next.js, & Vite", "System Optimization & UX"],
-      icon: Code,
+      icon: Terminal,
     },
     {
       title: "Mechanical Design",
@@ -89,7 +93,7 @@ export default function Home() {
         "CAD (SolidWorks, NX) & Manufacturing",
         "Autonomous Navigation Systems",
       ],
-      icon: Cpu,
+      icon: Wrench,
     },
     {
       title: "Technical Leadership",
@@ -99,7 +103,7 @@ export default function Home() {
         "Project Management & Strategy",
         "Team Mentorship & Logistics",
       ],
-      icon: Users,
+      icon: UserCheck,
     },
   ];
 
@@ -324,25 +328,27 @@ export default function Home() {
                   return (
                     <div
                       key={area.title}
-                      className="group relative rounded-xl border border-zinc-200 bg-white/50 p-4 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                      className="group relative rounded-xl border border-zinc-200 bg-white/50 p-5 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
                       style={{
                         opacity: 0,
                         animation: `fadeIn 0.5s ease-out ${0.6 + index * 0.1}s forwards`,
                       }}
                     >
-                      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 transition-transform group-hover:scale-110">
-                        <Icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
+                      <div className="mb-3 flex items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 transition-all group-hover:scale-110 group-hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:group-hover:border-zinc-600">
+                          <Icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
+                        </div>
+                        <h4 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                          {area.title}
+                        </h4>
                       </div>
-                      <h4 className="mb-2 text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-                        {area.title}
-                      </h4>
-                      <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                      <p className="mb-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
                         {area.description}
                       </p>
-                      <div className="mt-3 space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
+                      <div className="space-y-1 text-xs text-zinc-600 dark:text-zinc-400">
                         {area.highlights.map((item) => (
                           <div key={item} className="flex gap-2">
-                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-400 dark:bg-zinc-500" />
                             <span>{item}</span>
                           </div>
                         ))}
