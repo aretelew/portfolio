@@ -2,6 +2,7 @@
 
 import BlurText from "@/components/BlurText";
 import DotBackground from "@/components/DotBackground";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
@@ -18,6 +19,8 @@ import {
   Wrench,
   UserCheck,
   Terminal,
+  Copy,
+  Check,
 } from "lucide-react";
 import { FaJava } from "react-icons/fa";
 import {
@@ -428,32 +431,53 @@ export default function Home() {
 
           {/* Call-to-Action Buttons */}
           <div className="mt-10 flex flex-wrap gap-4">
-            <button
-              onClick={async () => {
-                const email = "aretelew@gmail.com";
-                try {
-                  await navigator.clipboard.writeText(email);
-                  setEmailCopied(true);
-                  setTimeout(() => setEmailCopied(false), 2000);
-                } catch (err) {
-                  console.error("Failed to copy email:", err);
-                }
-              }}
-              className="group relative flex items-center cursor-pointer gap-2 rounded-lg border-2 border-zinc-900 bg-zinc-900 px-6 py-3 font-medium text-white shadow-lg transition-all hover:border-zinc-400 hover:shadow-xl dark:border-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:border-zinc-700"
-            >
-              <Mail className="h-4 w-4 transition-transform group-hover:rotate-12" />
-              {emailCopied ? "Email Copied!" : "Get in Touch"}
-            </button>
+            {/* Split Button for Email - Open Email Client or Copy */}
+            <div className="flex overflow-hidden rounded-lg shadow-lg">
+              <Button
+                asChild
+                className="rounded-none rounded-l-md border-0 bg-zinc-900 px-6 py-3 text-white hover:bg-zinc-800 dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-400"
+                size="lg"
+              >
+                <a href="mailto:aretelew@gmail.com">
+                  <Mail />
+                  Get in Touch
+                </a>
+              </Button>
+              <div className="w-px bg-zinc-700 dark:bg-zinc-500" />
+              <Button
+                onClick={async () => {
+                  const email = "aretelew@gmail.com";
+                  try {
+                    await navigator.clipboard.writeText(email);
+                    setEmailCopied(true);
+                    setTimeout(() => setEmailCopied(false), 2000);
+                  } catch (err) {
+                    console.error("Failed to copy email:", err);
+                  }
+                }}
+                className="rounded-none rounded-r-md border-0 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800 dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-400"
+                size="lg"
+                title={emailCopied ? "Copied!" : "Copy email to clipboard"}
+              >
+                {emailCopied ? <Check /> : <Copy />}
+              </Button>
+            </div>
 
-            <a
-              href="/retelewski-resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white/50 px-6 py-3 font-medium text-zinc-900 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:text-zinc-50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="bg-white/50 backdrop-blur-sm hover:bg-white/80 hover:shadow-lg dark:bg-zinc-900/50 dark:hover:bg-zinc-900/80"
             >
-              <FileText className="h-4 w-4" />
-              View Resume
-            </a>
+              <a
+                href="/retelewski-resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FileText />
+                View Resume
+              </a>
+            </Button>
           </div>
         </section>
 
