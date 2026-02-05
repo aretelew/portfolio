@@ -55,7 +55,20 @@ export default function DecryptedText({
     new Set(),
   );
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
   const containerRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -142,7 +155,7 @@ export default function DecryptedText({
       }
     };
 
-    if (isHovering) {
+    if (isHovering && !prefersReducedMotion) {
       setIsScrambling(true);
       interval = setInterval(() => {
         setRevealedIndices((prevRevealed) => {
@@ -188,6 +201,7 @@ export default function DecryptedText({
     revealDirection,
     characters,
     useOriginalCharsOnly,
+    prefersReducedMotion,
   ]);
 
   useEffect(() => {

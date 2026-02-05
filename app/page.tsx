@@ -3,6 +3,9 @@
 import BlurText from "@/components/BlurText";
 import DotBackground from "@/components/DotBackground";
 import { Button } from "@/components/ui/button";
+// Featured project modals are shelved for now:
+// import ProjectModal from "@/components/ProjectModal";
+import ThemeToggle from "@/components/ThemeToggle";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
@@ -38,10 +41,25 @@ import {
 } from "react-icons/si";
 import { SiSiemensNx } from "@/components/SiSiemensNx";
 
+interface Project {
+  title: string;
+  description: string;
+  detailedDescription: string;
+  technicalDetails: string;
+  images?: string[];
+  tech: string[];
+  github?: string;
+  demo?: string;
+  featured: boolean;
+}
+
 export default function Home() {
   const [showScrollArrow, setShowScrollArrow] = useState(true);
   const [asciiArt, setAsciiArt] = useState("");
   const [emailCopied, setEmailCopied] = useState(false);
+  // Featured project modals are shelved for now:
+  // const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -143,6 +161,16 @@ export default function Home() {
       title: "Sentiment Analysis Engine",
       description:
         "Engineered a sentiment analysis data ingestion pipeline for 200,000+ earnings call documents. Architected a feature engineering process using TF-IDF and word embeddings to identify predictive market signals.",
+      detailedDescription:
+        "Built a comprehensive NLP pipeline for CWRU Quants to analyze sentiment patterns in earnings call transcripts. The system processes over 200,000 documents, extracting linguistic features and sentiment indicators that correlate with market movements. Implemented a multi-stage data ingestion pipeline with automated preprocessing, tokenization, and feature extraction. The pipeline generates high-dimensional feature vectors using both traditional TF-IDF approaches and modern word embeddings, enabling sophisticated quantitative analysis of market sentiment.",
+      technicalDetails:
+        "Architecture: Developed a scalable Python-based ETL pipeline using pandas for data manipulation and scikit-learn for feature engineering. Implemented TF-IDF vectorization with custom preprocessing to handle financial terminology and domain-specific language patterns. Integrated word2vec embeddings trained on financial texts to capture semantic relationships. Built a feature engineering framework that combines lexicon-based sentiment scoring with statistical measures of linguistic patterns. The system includes data validation, error handling, and logging mechanisms for production reliability.",
+      images: [
+        "https://picsum.photos/1200/675?random=1",
+        "https://picsum.photos/1200/675?random=2",
+        "https://picsum.photos/1200/675?random=3",
+        "https://picsum.photos/1200/675?random=4",
+      ],
       tech: ["Python", "NLP", "TF-IDF", "Word Embeddings", "Machine Learning"],
       github: "https://github.com/cwruquants/research",
       featured: true,
@@ -151,6 +179,15 @@ export default function Home() {
       title: "Discord Message Summarizer",
       description:
         "Developed a Discord bot utilizing LLMs to summarize messages over specific timeframes, helping users catch up quickly.",
+      detailedDescription:
+        "Created an intelligent Discord bot for the CWRU Motorsports team that leverages large language models to generate concise summaries of channel conversations. The bot helps team members quickly catch up on discussions they've missed by providing context-aware summaries of messages from the past day, week, or custom timeframes. Designed with a focus on preserving important decisions, action items, and technical discussions while filtering out casual conversation. The bot includes intelligent context windowing to handle Discord's message limits and API rate restrictions.",
+      technicalDetails:
+        "Implementation: Built using Python with discord.py library for Discord API integration. Integrated OpenAI's GPT models for natural language understanding and summarization. Implemented a message aggregation system that fetches messages within specified timeframes and intelligently chunks them for LLM processing. Deployed on Heroku with automated health checks and error recovery. The bot includes command parsing, user permission validation, and configurable summarization styles (brief, detailed, technical-focused). Added caching mechanisms to avoid redundant API calls and reduce costs.",
+      images: [
+        "https://picsum.photos/1200/675?random=5",
+        "https://picsum.photos/1200/675?random=6",
+        "https://picsum.photos/1200/675?random=7",
+      ],
       tech: ["Python", "LLMs", "Heroku"],
       github: "https://github.com/cwru-baja/baja-bot",
       featured: true,
@@ -159,6 +196,16 @@ export default function Home() {
       title: "Autonomous FPV Drone",
       description:
         "Custom-built drone with programmed microelectronics and autonomous return-to-home capabilities using Betaflight firmware.",
+      detailedDescription:
+        "Designed and assembled a custom FPV racing drone from scratch, featuring fully programmed flight controller and autonomous navigation capabilities. Implemented return-to-home functionality using GPS integration and failsafe protocols. The build includes custom-tuned PID controllers for stable flight characteristics, telemetry systems for real-time monitoring, and FPV video transmission for immersive piloting. Focused on balancing performance, reliability, and advanced autonomous features typically found in higher-end commercial drones.",
+      technicalDetails:
+        "Hardware: Custom frame assembly with carbon fiber components for optimal strength-to-weight ratio. Integrated F4 flight controller running Betaflight firmware with custom configuration. Installed GPS module for position holding and return-to-home functionality. Configured ESCs with BLHeli_32 firmware for precise motor control. Added OSD (On-Screen Display) for flight telemetry overlay. Software: Extensively tuned Betaflight parameters including PID loops, rates, and filters for responsive yet stable flight characteristics. Programmed autonomous modes using Betaflight's GPS rescue feature with custom failsafe configurations. Implemented telemetry protocols for real-time monitoring of battery voltage, GPS coordinates, and system status.",
+      images: [
+        "https://picsum.photos/1200/675?random=8",
+        "https://picsum.photos/1200/675?random=9",
+        "https://picsum.photos/1200/675?random=10",
+        "https://picsum.photos/1200/675?random=11",
+      ],
       tech: ["Betaflight", "Microelectronics"],
       featured: false,
     },
@@ -166,6 +213,15 @@ export default function Home() {
       title: "CWRU Motorsports Website",
       description:
         "Complete redesign of the team website, increasing traffic by 18% with improved performance, maintainability, and user experience.",
+      detailedDescription:
+        "Led the complete redesign and redevelopment of the CWRU Motorsports team website, modernizing the tech stack and improving both user experience and developer productivity. The redesign focused on showcasing the team's engineering achievements, recruitment efforts, and sponsor relationships. Implemented performance optimizations that resulted in significantly faster load times and improved SEO rankings. The new site features responsive design, smooth animations, and intuitive navigation that increased visitor engagement by 18%. Collaborated with team leadership to define requirements and iterate on design feedback.",
+      technicalDetails:
+        "Stack: Built with React and TypeScript for type safety and component reusability. Used Vite as the build tool for lightning-fast development experience and optimized production builds. Styled with Tailwind CSS for rapid UI development and consistent design system. Architecture: Implemented component-based architecture with reusable UI elements and shared layouts. Used React Router for client-side routing and smooth page transitions. Optimized images with lazy loading and modern formats (WebP) to reduce bundle size. Implemented code splitting to minimize initial load time. Added SEO optimizations including meta tags, semantic HTML, and sitemap generation. Deployed with CI/CD pipeline for automated testing and deployment.",
+      images: [
+        "https://picsum.photos/1200/675?random=12",
+        "https://picsum.photos/1200/675?random=13",
+        "https://picsum.photos/1200/675?random=14",
+      ],
       tech: ["TypeScript", "Vite", "React", "Tailwind CSS"],
       github: "https://github.com/aretelew",
       demo: "https://cwrumotorsports.com",
@@ -216,9 +272,10 @@ export default function Home() {
 
           {/* Scroll Down Arrow */}
           <div
-            className={`absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce transition-opacity duration-500 ${
+            className={`absolute bottom-8 left-1/2 -translate-x-1/2 motion-safe:animate-bounce transition-opacity duration-500 ${
               showScrollArrow ? "opacity-100" : "opacity-0"
             }`}
+            aria-label="Scroll down"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -231,6 +288,7 @@ export default function Home() {
               strokeLinecap="round"
               strokeLinejoin="round"
               className="h-6 w-6 text-zinc-500 dark:text-zinc-400"
+              aria-hidden="true"
             >
               <path d="M12 5v14" />
               <path d="m19 12-7 7-7-7" />
@@ -249,7 +307,7 @@ export default function Home() {
                   <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950">
                     <div className="relative flex h-full w-full items-center justify-center p-1">
                       <pre className="font-mono text-[0.08rem] leading-[0.08rem] text-zinc-300 whitespace-pre scale-100 origin-center">
-                        {asciiArt || "Loading..."}
+                        {asciiArt || "Loading…"}
                       </pre>
                     </div>
                   </div>
@@ -284,7 +342,7 @@ export default function Home() {
                   </p>
                   <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
                     <BlurText
-                      text="My work spans quantitative research, full-stack development, and mechanical design—bridging the gap between intelligent algorithms and real-world systems. From engineering NLP pipelines that extract market insights from hundreds of thousands of documents, to architecting performant web applications, to designing precision components for autonomous systems, I focus on building technology that seamlessly integrates computational power with practical utility. Whether optimizing feature engineering processes or crafting intuitive user interfaces, I aim to create solutions that feel effortless while solving complex problems beneath the surface."
+                      text="My work sits at the intersection of quantitative research, software development, and mechanical design. I focus on making complex systems work together—whether that's building NLP pipelines to analyze thousands of market documents, developing high-performance web apps, or designing hardware for autonomous systems. I'm driven by the challenge of translating complex technical requirements into tools that actually feel intuitive to the people using them."
                       animateOn="view"
                       revealDirection="word"
                       duration={600}
@@ -307,7 +365,7 @@ export default function Home() {
               {techStack.map((tech) => (
                 <div
                   key={tech.name}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white/50 px-4 py-3 transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white/50 px-4 py-3 transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
                 >
                   <tech.icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
                   <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
@@ -331,14 +389,15 @@ export default function Home() {
                   return (
                     <div
                       key={area.title}
-                      className="group relative rounded-xl border border-zinc-200 bg-white/50 p-5 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                      className="group relative rounded-xl border border-zinc-200 bg-white/50 p-5 backdrop-blur-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
                       style={{
                         opacity: 0,
                         animation: `fadeIn 0.5s ease-out ${0.6 + index * 0.1}s forwards`,
                       }}
+                      suppressHydrationWarning
                     >
                       <div className="mb-3 flex items-center gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 transition-all group-hover:scale-110 group-hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:group-hover:border-zinc-600">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 transition-transform transition-colors motion-safe:group-hover:scale-110 group-hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:group-hover:border-zinc-600">
                           <Icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
                         </div>
                         <h4 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
@@ -371,7 +430,7 @@ export default function Home() {
                 {education.map((edu, index) => (
                   <div
                     key={edu.institution}
-                    className="group relative rounded-xl border border-zinc-200 bg-white/60 p-5 shadow-sm transition-all hover:border-zinc-300 hover:bg-white/80 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                    className="group relative rounded-xl border border-zinc-200 bg-white/50 p-5 backdrop-blur-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
                   >
                     <div className="flex items-start gap-4">
                       <div className="shrink-0">
@@ -457,6 +516,7 @@ export default function Home() {
                 }}
                 className="rounded-none rounded-r-md border-0 bg-zinc-900 px-4 py-3 text-white hover:bg-zinc-800 dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-400"
                 size="lg"
+                aria-label={emailCopied ? "Copied!" : "Copy email to clipboard"}
                 title={emailCopied ? "Copied!" : "Copy email to clipboard"}
               >
                 {emailCopied ? <Check /> : <Copy />}
@@ -499,9 +559,9 @@ export default function Home() {
             {/* Bento Grid */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               {projects.map((project, index) => (
-                <div
+                <article
                   key={project.title}
-                  className={`group relative flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-all hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80 ${
+                  className={`group relative flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg cursor-default dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80 text-left ${
                     index === 0 || index === 3
                       ? "md:col-span-2"
                       : "md:col-span-1"
@@ -551,16 +611,19 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Links */}
-                  <div className="mt-6 flex gap-4">
+                  {/* Links and CTA */}
+                  <div className="mt-6 flex flex-wrap items-center gap-4">
+                    <span className="font-mono text-xs text-zinc-500 group-hover:text-zinc-700 transition-colors dark:text-zinc-500 dark:group-hover:text-zinc-400">
+                      Links →
+                    </span>
                     {project.github && (
                       <a
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono text-sm text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
+                        className="font-mono text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
                       >
-                        GitHub →
+                        GitHub
                       </a>
                     )}
                     {"demo" in project && project.demo && (
@@ -568,58 +631,70 @@ export default function Home() {
                         href={project.demo as string}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono text-sm text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
+                        className="font-mono text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
                       >
-                        Visit →
+                        Visit
                       </a>
                     )}
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="relative z-10 w-full border-t border-zinc-200 dark:border-zinc-800">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-12 sm:flex-row sm:justify-between">
-          {/* Copyright */}
-          <div className="text-center text-sm text-zinc-600 dark:text-zinc-400 sm:text-left">
-            © {new Date().getFullYear()} All rights reserved.
-          </div>
-
-          {/* Social Links */}
-          <div className="flex gap-6">
+      {/* Large Text Footer Effect */}
+      <footer className="relative z-10 w-full overflow-hidden pb-0 pt-8">
+        {/* Large text effect - only top half visible */}
+        <div className="relative mx-auto flex w-full max-w-7xl items-start justify-start overflow-hidden px-6">
+          <h2 className="select-none text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-tighter text-zinc-900 dark:text-zinc-50" style={{ transform: 'translateY(30%)', width: 'fit-content' }}>
+            aretelew
+          </h2>
+          
+          {/* Footer links positioned over left side of text */}
+          <div className="absolute left-12 top-[calc(40%+2rem)] flex flex-wrap items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
             <a
               href="https://github.com/aretelew"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-              aria-label="GitHub"
+              className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
             >
-              <SiGithub className="h-5 w-5" />
+              GitHub
             </a>
             <a
               href="https://www.linkedin.com/in/aretelew/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-              aria-label="LinkedIn"
+              className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
             >
-              <SiLinkedin className="h-5 w-5" />
+              LinkedIn
             </a>
-
             <a
               href="mailto:aretelew@gmail.com"
-              className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
-              aria-label="Email"
+              className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
             >
-              <Mail className="h-5 w-5" />
+              Email
             </a>
+          </div>
+          
+          {/* Copyright positioned over right side of text */}
+          <div className="absolute right-10 top-[calc(40%+2rem)] flex items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
+            <span>© {new Date().getFullYear()} All rights reserved.</span>
+            <ThemeToggle />
           </div>
         </div>
       </footer>
+
+      {/*
+        Project Modal (shelved for now)
+        
+        <ProjectModal
+          project={selectedProject}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+        />
+      */}
     </div>
   );
 }

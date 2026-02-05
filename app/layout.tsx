@@ -10,7 +10,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "AR",
+  title: "AR - Portfolio",
+  description: "Software developer, quant researcher, and design engineer. Engineering technologies for a smarter future.",
 };
 
 export default function RootLayout({
@@ -19,7 +20,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme');
+                if (theme) {
+                  document.documentElement.classList.toggle('dark', theme === 'dark');
+                } else {
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  document.documentElement.classList.toggle('dark', prefersDark);
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} antialiased`}
       >

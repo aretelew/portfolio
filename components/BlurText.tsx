@@ -46,7 +46,20 @@ export default function BlurText({
 }: BlurTextProps) {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(false);
   const containerRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+    
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     if (animateOn !== "view" && animateOn !== "both") return;
@@ -108,16 +121,17 @@ export default function BlurText({
 
         <motion.span
           aria-hidden="true"
-          initial={{ filter: `blur(${initialBlur}px)`, opacity: 0 }}
+          initial={prefersReducedMotion ? { filter: "blur(0px)", opacity: 1 } : { filter: `blur(${initialBlur}px)`, opacity: 0 }}
           animate={
-            isActive
+            prefersReducedMotion || isActive
               ? { filter: "blur(0px)", opacity: 1 }
               : { filter: `blur(${initialBlur}px)`, opacity: 0 }
           }
-          transition={{
-            duration: duration / 1000,
-            ease: "easeOut",
-          }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: duration / 1000, ease: "easeOut" }
+          }
         >
           {text}
         </motion.span>
@@ -144,17 +158,21 @@ export default function BlurText({
             <motion.span
               key={index}
               className={className}
-              initial={{ filter: `blur(${initialBlur}px)`, opacity: 0 }}
+              initial={prefersReducedMotion ? { filter: "blur(0px)", opacity: 1 } : { filter: `blur(${initialBlur}px)`, opacity: 0 }}
               animate={
-                isActive
+                prefersReducedMotion || isActive
                   ? { filter: "blur(0px)", opacity: 1 }
                   : { filter: `blur(${initialBlur}px)`, opacity: 0 }
               }
-              transition={{
-                duration: duration / 1000,
-                ease: "easeOut",
-                delay: isActive ? index * staggerDelay : 0,
-              }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : {
+                      duration: duration / 1000,
+                      ease: "easeOut",
+                      delay: isActive ? index * staggerDelay : 0,
+                    }
+              }
               style={{ display: "inline-block", marginRight: "0.25em" }}
             >
               {word}
@@ -181,17 +199,21 @@ export default function BlurText({
           <motion.span
             key={index}
             className={className}
-            initial={{ filter: `blur(${initialBlur}px)`, opacity: 0 }}
+            initial={prefersReducedMotion ? { filter: "blur(0px)", opacity: 1 } : { filter: `blur(${initialBlur}px)`, opacity: 0 }}
             animate={
-              isActive
+              prefersReducedMotion || isActive
                 ? { filter: "blur(0px)", opacity: 1 }
                 : { filter: `blur(${initialBlur}px)`, opacity: 0 }
             }
-            transition={{
-              duration: duration / 1000,
-              ease: "easeOut",
-              delay: isActive ? index * 0.03 : 0,
-            }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : {
+                    duration: duration / 1000,
+                    ease: "easeOut",
+                    delay: isActive ? index * 0.03 : 0,
+                  }
+            }
             style={{ display: "inline-block" }}
           >
             {char === " " ? "\u00A0" : char}
