@@ -680,8 +680,8 @@ export default function Home() {
           </div>
 
           {/* Stable clipping keeps the text intersecting the page bottom on every viewport */}
-          <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden translate-y-4">
-            <h2 className="select-none text-[clamp(5.5rem,23vw,20.5rem)] sm:text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
+          <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden">
+            <h2 className="select-none -mt-[0.14em] text-[clamp(5.5rem,23vw,20.5rem)] sm:text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
               aretelew
             </h2>
           </div>
