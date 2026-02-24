@@ -306,7 +306,7 @@ export default function Home() {
                 <div className="relative aspect-square w-full max-w-xs mx-auto lg:mx-0">
                   <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950">
                     <div className="relative flex h-full w-full items-center justify-center p-1">
-                      <pre className="font-mono text-[0.08rem] leading-[0.08rem] text-zinc-300 whitespace-pre scale-100 origin-center">
+                      <pre className="font-mono text-[0.08rem] leading-[1] text-zinc-300 whitespace-pre origin-center [-webkit-text-size-adjust:none] [text-size-adjust:none]">
                         {asciiArt || "Loading…"}
                       </pre>
                     </div>
@@ -645,43 +645,45 @@ export default function Home() {
       </main>
 
       {/* Large Text Footer Effect */}
-      <footer className="relative z-10 w-full overflow-hidden pb-0 pt-8">
-        {/* Large text effect - only top half visible */}
-        <div className="relative mx-auto flex w-full max-w-7xl items-start justify-start overflow-hidden px-6">
-          <h2 className="select-none text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-tighter text-zinc-900 dark:text-zinc-50" style={{ transform: 'translateY(30%)', width: 'fit-content' }}>
-            aretelew
-          </h2>
-          
-          {/* Footer links positioned over left side of text */}
-          <div className="absolute left-12 top-[calc(40%+2rem)] flex flex-wrap items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
-            <a
-              href="https://github.com/aretelew"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/aretelew/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-            >
-              LinkedIn
-            </a>
-            <a
-              href="mailto:aretelew@gmail.com"
-              className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-            >
-              Email
-            </a>
+      <footer className="relative z-10 w-full pt-8">
+        <div className="mx-auto w-full max-w-7xl px-6">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="flex items-center gap-4">
+              <a
+                href="https://github.com/aretelew"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+              >
+                GitHub
+              </a>
+              <a
+                href="https://www.linkedin.com/in/aretelew/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="mailto:aretelew@gmail.com"
+                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+              >
+                Email
+              </a>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span>© {new Date().getFullYear()} All rights reserved.</span>
+              <ThemeToggle />
+            </div>
           </div>
-          
-          {/* Copyright positioned over right side of text */}
-          <div className="absolute right-10 top-[calc(40%+2rem)] flex items-center gap-4 text-xs text-zinc-600 dark:text-zinc-400">
-            <span>© {new Date().getFullYear()} All rights reserved.</span>
-            <ThemeToggle />
+
+          {/* Stable clipping keeps the text intersecting the page bottom on every viewport */}
+          <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden translate-y-4">
+            <h2 className="select-none text-[clamp(5.5rem,23vw,20.5rem)] sm:text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
+              aretelew
+            </h2>
           </div>
         </div>
       </footer>
