@@ -45,8 +45,21 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
 body {
   font-family: var(--font-space-grotesk), sans-serif;
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
 
 /* Dot Grid Background Pattern */
