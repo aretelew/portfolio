@@ -9,15 +9,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import {
-  Brain,
-  Users,
-  Lightbulb,
-  GraduationCap,
   Mail,
   FileText,
-  ArrowDown,
-  Code,
-  Cpu,
   TrendingUp,
   Wrench,
   UserCheck,
@@ -33,25 +26,11 @@ import {
   SiPython,
   SiPytorch,
   SiNodedotjs,
-  SiGithub,
-  SiLinkedin,
-  SiX,
   SiAnsys,
   SiDassaultsystemes,
 } from "react-icons/si";
 import { SiSiemensNx } from "@/components/SiSiemensNx";
 
-interface Project {
-  title: string;
-  description: string;
-  detailedDescription: string;
-  technicalDetails: string;
-  images?: string[];
-  tech: string[];
-  github?: string;
-  demo?: string;
-  featured: boolean;
-}
 
 export default function Home() {
   const [showScrollArrow, setShowScrollArrow] = useState(true);
@@ -84,9 +63,6 @@ export default function Home() {
   const motto = "Engineering technologies for a smarter future.";
   const descriptionLine1 = "software developer, quant researcher, &";
   const descriptionLine2 = "design engineer.";
-
-  const aboutIntro =
-    "I'm passionate about creating AI systems that enhance rather than replace human capabilities. My work sits at the intersection of machine learning, cognitive science, and user experience—exploring how technology can amplify our natural intelligence while remaining deeply human-centered.";
 
   const expertiseAreas = [
     {

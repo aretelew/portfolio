@@ -9,6 +9,7 @@ export default function ThemeToggle() {
 
   // Set mounted to true after component mounts (avoid hydration mismatch)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     // Get theme from localStorage or default to dark
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
