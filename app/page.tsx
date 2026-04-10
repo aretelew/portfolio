@@ -1,13 +1,14 @@
 "use client";
 
 import BlurText from "@/components/BlurText";
+import { AnimatePresence, motion } from "motion/react";
 import DotBackground from "@/components/DotBackground";
 import { Button } from "@/components/ui/button";
 // Featured project modals are shelved for now:
 // import ProjectModal from "@/components/ProjectModal";
 import ThemeToggle from "@/components/ThemeToggle";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Mail,
   FileText,
@@ -17,8 +18,9 @@ import {
   Terminal,
   Copy,
   Check,
+  ExternalLink,
 } from "lucide-react";
-import { FaJava } from "react-icons/fa";
+import { FaJava, FaGithub } from "react-icons/fa";
 import {
   SiReact,
   SiNextdotjs,
@@ -33,6 +35,8 @@ import { SiSiemensNx } from "@/components/SiSiemensNx";
 
 
 export default function Home() {
+  const projectsSectionRef = useRef<HTMLElement>(null);
+  const aboutSectionRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(true);
   const [asciiArt, setAsciiArt] = useState("");
   const [emailCopied, setEmailCopied] = useState(false);
@@ -152,6 +156,38 @@ export default function Home() {
       featured: true,
     },
     {
+      title: "iLiterate",
+      description:
+        "Language learning platform where users read authentic content in their target language, highlight unknown words for instant translation, and automatically generate spaced-repetition flashcards from what they encounter.",
+      detailedDescription:
+        "Built as a team of four for CSDS 393. iLiterate replaces isolated vocabulary drills with contextual reading — users import texts, highlight unfamiliar words or phrases, and receive instant translations and definitions without leaving the page. Highlighted words are automatically turned into flashcards using a spaced-repetition algorithm. An LLM-powered content recommendation engine adapts difficulty based on reading history and proficiency level, keeping material challenging but approachable.",
+      technicalDetails:
+        "Stack: Next.js frontend deployed on Vercel, Supabase for auth and database, Python backend. LLM integration via Gemini for translation, quiz generation, and adaptive content recommendations. Features an EPUB reader with text highlighting, spaced repetition scheduling, reading progress tracking, and AI-generated quizzes. Database schema manages vocabulary, lesson sessions, reading progress, and user skill levels across multiple migrations.",
+      images: [],
+      tech: ["Next.js", "TypeScript", "Supabase", "Python", "Gemini", "Tailwind CSS"],
+      github: "https://github.com/Hrishnugg/CSDS393Project",
+      demo: "https://iliterate.org",
+      featured: false,
+    },
+    {
+      title: "CWRU Motorsports Website",
+      description:
+        "Complete redesign of the team website, increasing traffic by 18% with improved performance, maintainability, and user experience.",
+      detailedDescription:
+        "Led the complete redesign and redevelopment of the CWRU Motorsports team website, modernizing the tech stack and improving both user experience and developer productivity. The redesign focused on showcasing the team's engineering achievements, recruitment efforts, and sponsor relationships. Implemented performance optimizations that resulted in significantly faster load times and improved SEO rankings. The new site features responsive design, smooth animations, and intuitive navigation that increased visitor engagement by 18%. Collaborated with team leadership to define requirements and iterate on design feedback.",
+      technicalDetails:
+        "Stack: Built with React and TypeScript for type safety and component reusability. Used Vite as the build tool for lightning-fast development experience and optimized production builds. Styled with Tailwind CSS for rapid UI development and consistent design system. Architecture: Implemented component-based architecture with reusable UI elements and shared layouts. Used React Router for client-side routing and smooth page transitions. Optimized images with lazy loading and modern formats (WebP) to reduce bundle size. Implemented code splitting to minimize initial load time. Added SEO optimizations including meta tags, semantic HTML, and sitemap generation. Deployed with CI/CD pipeline for automated testing and deployment.",
+      images: [
+        "https://picsum.photos/1200/675?random=12",
+        "https://picsum.photos/1200/675?random=13",
+        "https://picsum.photos/1200/675?random=14",
+      ],
+      tech: ["TypeScript", "Vite", "React", "Tailwind CSS"],
+      github: "https://github.com/aretelew",
+      demo: "https://cwrumotorsports.com",
+      featured: false,
+    },
+    {
       title: "Discord Message Summarizer",
       description:
         "Developed a Discord bot utilizing LLMs to summarize messages over specific timeframes, helping users catch up quickly.",
@@ -185,30 +221,12 @@ export default function Home() {
       tech: ["Betaflight", "Microelectronics"],
       featured: false,
     },
-    {
-      title: "CWRU Motorsports Website",
-      description:
-        "Complete redesign of the team website, increasing traffic by 18% with improved performance, maintainability, and user experience.",
-      detailedDescription:
-        "Led the complete redesign and redevelopment of the CWRU Motorsports team website, modernizing the tech stack and improving both user experience and developer productivity. The redesign focused on showcasing the team's engineering achievements, recruitment efforts, and sponsor relationships. Implemented performance optimizations that resulted in significantly faster load times and improved SEO rankings. The new site features responsive design, smooth animations, and intuitive navigation that increased visitor engagement by 18%. Collaborated with team leadership to define requirements and iterate on design feedback.",
-      technicalDetails:
-        "Stack: Built with React and TypeScript for type safety and component reusability. Used Vite as the build tool for lightning-fast development experience and optimized production builds. Styled with Tailwind CSS for rapid UI development and consistent design system. Architecture: Implemented component-based architecture with reusable UI elements and shared layouts. Used React Router for client-side routing and smooth page transitions. Optimized images with lazy loading and modern formats (WebP) to reduce bundle size. Implemented code splitting to minimize initial load time. Added SEO optimizations including meta tags, semantic HTML, and sitemap generation. Deployed with CI/CD pipeline for automated testing and deployment.",
-      images: [
-        "https://picsum.photos/1200/675?random=12",
-        "https://picsum.photos/1200/675?random=13",
-        "https://picsum.photos/1200/675?random=14",
-      ],
-      tech: ["TypeScript", "Vite", "React", "Tailwind CSS"],
-      github: "https://github.com/aretelew",
-      demo: "https://cwrumotorsports.com",
-      featured: false,
-    },
   ];
 
   return (
     <div className="relative overflow-hidden bg-white font-sans dark:bg-zinc-950">
       {/* Dot background with hover effect */}
-      <DotBackground />
+      <DotBackground disabledZones={[aboutSectionRef, projectsSectionRef]} />
 
       {/* Content */}
       <main className="relative z-10 flex w-full flex-col items-center px-6">
@@ -292,7 +310,7 @@ export default function Home() {
             </div>
 
             {/* Right Column - About Text */}
-            <div className="flex flex-col gap-6">
+            <div ref={aboutSectionRef} className="flex flex-col gap-6">
               <div className="space-y-4">
                 <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
                   <BlurText
@@ -495,7 +513,31 @@ export default function Home() {
                 aria-label={emailCopied ? "Copied!" : "Copy email to clipboard"}
                 title={emailCopied ? "Copied!" : "Copy email to clipboard"}
               >
-                {emailCopied ? <Check /> : <Copy />}
+                <AnimatePresence mode="wait" initial={false}>
+                  {emailCopied ? (
+                    <motion.span
+                      key="check"
+                      initial={{ rotateZ: -180, opacity: 0 }}
+                      animate={{ rotateZ: 0, opacity: 1 }}
+                      exit={{ rotateZ: 180, opacity: 0 }}
+                      transition={{ duration: 0.08 }}
+                      style={{ display: "inline-flex" }}
+                    >
+                      <Check className="size-4" />
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="copy"
+                      initial={{ rotateZ: -180, opacity: 0 }}
+                      animate={{ rotateZ: 0, opacity: 1 }}
+                      exit={{ rotateZ: 180, opacity: 0 }}
+                      transition={{ duration: 0.08 }}
+                      style={{ display: "inline-flex" }}
+                    >
+                      <Copy className="size-4" />
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </Button>
             </div>
 
@@ -518,7 +560,7 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section className="w-full max-w-7xl py-20 sm:py-24">
+        <section ref={projectsSectionRef} className="w-full max-w-7xl py-20 sm:py-24">
           <div className="flex flex-col gap-12">
             {/* Section Heading */}
             <h2 className="text-left text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
@@ -532,86 +574,59 @@ export default function Home() {
               />
             </h2>
 
-            {/* Bento Grid */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {/* Numbered List */}
+            <div className="flex flex-col">
               {projects.map((project, index) => (
                 <article
                   key={project.title}
-                  className={`group relative flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white/50 p-6 backdrop-blur-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg cursor-default dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80 text-left ${
-                    index === 0 || index === 3
-                      ? "md:col-span-2"
-                      : "md:col-span-1"
-                  }`}
+                  className="group grid grid-cols-[5rem_1fr] items-start gap-6 py-8 sm:grid-cols-[6rem_1fr] sm:gap-12"
                 >
-                  {/* Project Info */}
-                  <div className="flex flex-col gap-4">
-                    <div>
-                      <h3 className="mb-3 text-lg font-medium tracking-tight text-zinc-900 dark:text-zinc-50">
-                        <BlurText
-                          text={project.title}
-                          animateOn="view"
-                          revealDirection="word"
-                          duration={500}
-                          initialBlur={8}
-                          staggerDelay={0.03}
-                          delay={300 + index * 100}
-                        />
-                      </h3>
-                      <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                        <BlurText
-                          text={project.description}
-                          animateOn="view"
-                          revealDirection="word"
-                          duration={500}
-                          initialBlur={6}
-                          staggerDelay={0.01}
-                          delay={400 + index * 100}
-                        />
-                      </p>
-                    </div>
+                  {/* Number */}
+                  <span className="text-5xl font-bold leading-none tracking-tight text-zinc-200 dark:text-zinc-800 group-hover:text-zinc-300 dark:group-hover:text-zinc-700 transition-colors select-none">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                    {/* Tech Stack */}
-                    <div className="flex flex-wrap gap-2">
-                      {project.tech.map((tech, techIndex) => (
+                  {/* Title + Description + Tech + Links */}
+                  <div className="flex flex-col gap-3 pt-1">
+                    <h3 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                      {project.description}
+                    </p>
+                    {/* Tech pills + links inline */}
+                    <div className="flex flex-wrap items-center gap-2 pt-1">
+                      {project.tech.map((tech) => (
                         <span
                           key={tech}
-                          className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-xs text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
-                          style={{
-                            opacity: 0,
-                            animation: `fadeIn 0.5s ease-out ${0.6 + index * 0.1 + techIndex * 0.05}s forwards`,
-                          }}
+                          className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-xs text-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-400"
                         >
                           {tech}
                         </span>
                       ))}
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 ml-5"
+                        >
+                          <FaGithub className="size-3.5" />
+                          GitHub
+                        </a>
+                      )}
+                      {"demo" in project && project.demo && (
+                        <a
+                          href={project.demo as string}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 ml-2"
+                        >
+                          <ExternalLink className="size-3.5" />
+                          Visit
+                        </a>
+                      )}
                     </div>
-                  </div>
-
-                  {/* Links and CTA */}
-                  <div className="mt-6 flex flex-wrap items-center gap-4">
-                    <span className="font-mono text-xs text-zinc-500 group-hover:text-zinc-700 transition-colors dark:text-zinc-500 dark:group-hover:text-zinc-400">
-                      Links →
-                    </span>
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-mono text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
-                      >
-                        GitHub
-                      </a>
-                    )}
-                    {"demo" in project && project.demo && (
-                      <a
-                        href={project.demo as string}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-mono text-xs text-zinc-600 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:decoration-zinc-700 dark:hover:text-zinc-50"
-                      >
-                        Visit
-                      </a>
-                    )}
                   </div>
                 </article>
               ))}
@@ -623,43 +638,46 @@ export default function Home() {
       {/* Large Text Footer Effect */}
       <footer className="relative z-10 w-full pt-8">
         <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="mb-3 flex flex-wrap items-center justify-between gap-4 text-xs text-zinc-600 dark:text-zinc-400">
-            <div className="flex items-center gap-4">
-              <a
-                href="https://github.com/aretelew"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://www.linkedin.com/in/aretelew/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="mailto:aretelew@gmail.com"
-                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-              >
-                Email
-              </a>
+          <div className="relative">
+            {/* Links overlaid directly on top of the letters */}
+            <div className="absolute top-0 left-0 right-0 z-10 flex flex-wrap items-start justify-between gap-4 pt-2 text-xs text-zinc-600 dark:text-zinc-400">
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://github.com/aretelew"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+                >
+                  GitHub
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/aretelew/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href="mailto:aretelew@gmail.com"
+                  className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+                >
+                  Email
+                </a>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <span>© {new Date().getFullYear()} All rights reserved.</span>
+                <ThemeToggle />
+              </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <span>© {new Date().getFullYear()} All rights reserved.</span>
-              <ThemeToggle />
+            {/* Stable clipping keeps the text intersecting the page bottom on every viewport */}
+            <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden">
+              <h2 className="select-none -mt-[0.14em] text-[clamp(5.5rem,23vw,20.5rem)] sm:text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
+                aretelew
+              </h2>
             </div>
-          </div>
-
-          {/* Stable clipping keeps the text intersecting the page bottom on every viewport */}
-          <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden">
-            <h2 className="select-none -mt-[0.14em] text-[clamp(5.5rem,23vw,20.5rem)] sm:text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
-              aretelew
-            </h2>
           </div>
         </div>
       </footer>
