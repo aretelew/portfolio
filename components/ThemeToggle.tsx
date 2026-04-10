@@ -1,6 +1,7 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
@@ -52,11 +53,31 @@ export default function ThemeToggle() {
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
     >
-      {theme === "dark" ? (
-        <Sun className="h-5 w-5" />
-      ) : (
-        <Moon className="h-5 w-5" />
-      )}
+      <AnimatePresence mode="wait" initial={false}>
+        {theme === "dark" ? (
+          <motion.span
+            key="sun"
+            initial={{ rotateZ: -180, opacity: 0 }}
+            animate={{ rotateZ: 0, opacity: 1 }}
+            exit={{ rotateZ: 180, opacity: 0 }}
+            transition={{ duration: 0.08 }}
+            style={{ display: "inline-flex" }}
+          >
+            <Sun className="h-5 w-5" />
+          </motion.span>
+        ) : (
+          <motion.span
+            key="moon"
+            initial={{ rotateZ: -180, opacity: 0 }}
+            animate={{ rotateZ: 0, opacity: 1 }}
+            exit={{ rotateZ: 180, opacity: 0 }}
+            transition={{ duration: 0.08 }}
+            style={{ display: "inline-flex" }}
+          >
+            <Moon className="h-5 w-5" />
+          </motion.span>
+        )}
+      </AnimatePresence>
     </button>
   );
 }

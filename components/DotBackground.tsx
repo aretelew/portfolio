@@ -1,21 +1,32 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, RefObject } from "react";
 import { cn } from "@/lib/utils";
 
-export default function DotBackground() {
+interface DotBackgroundProps {
+  disabledZones?: RefObject<HTMLElement | null>[];
+}
+
+export default function DotBackground({ disabledZones = [] }: DotBackgroundProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
   const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    const isInDisabledZone = (clientX: number, clientY: number) =>
+      disabledZones.some((ref) => {
+        if (!ref.current) return false;
+        const rect = ref.current.getBoundingClientRect();
+        return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+      });
+
     const handleMouseMove = (event: MouseEvent) => {
       mouseRef.current = { x: event.clientX, y: event.clientY };
       setMousePosition({
         x: event.clientX + window.scrollX,
         y: event.clientY + window.scrollY,
       });
-      setVisible(true);
+      setVisible(!isInDisabledZone(event.clientX, event.clientY));
     };
 
     const handleScroll = () => {
@@ -23,6 +34,7 @@ export default function DotBackground() {
         x: mouseRef.current.x + window.scrollX,
         y: mouseRef.current.y + window.scrollY,
       });
+      setVisible(!isInDisabledZone(mouseRef.current.x, mouseRef.current.y));
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -32,7 +44,7 @@ export default function DotBackground() {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [disabledZones]);
 
   return (
     <>
