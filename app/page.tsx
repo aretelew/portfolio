@@ -38,7 +38,6 @@ export default function Home() {
   const projectsSectionRef = useRef<HTMLElement>(null);
   const aboutSectionRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(true);
-  const [asciiArt, setAsciiArt] = useState("");
   const [emailCopied, setEmailCopied] = useState(false);
   // Featured project modals are shelved for now:
   // const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -55,13 +54,6 @@ export default function Home() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    fetch("/ascii-portrait.txt")
-      .then((res) => res.text())
-      .then((text) => setAsciiArt(text))
-      .catch((err) => console.error("Failed to load ASCII art:", err));
   }, []);
 
   const motto = "Engineering technologies for a smarter future.";
@@ -290,63 +282,42 @@ export default function Home() {
           </div>
         </section>
 
-        {/* About Section - Redesigned with Asymmetric Layout */}
+        {/* About Section */}
         <section className="w-full max-w-7xl py-20 sm:py-24">
-          {/* Top Row: ASCII Art + About Text */}
-          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[auto_1fr] lg:gap-15">
-            {/* Left Column - ASCII Art + Tools */}
-            <div className="flex flex-col gap-8">
-              <div className="relative">
-                <div className="relative aspect-square w-full max-w-xs mx-auto lg:mx-0">
-                  <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950">
-                    <div className="relative flex h-full w-full items-center justify-center p-1">
-                      <pre className="font-mono text-[0.08rem] leading-[1] text-zinc-300 whitespace-pre origin-center [-webkit-text-size-adjust:none] [text-size-adjust:none]">
-                        {asciiArt || "Loading…"}
-                      </pre>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - About Text */}
-            <div ref={aboutSectionRef} className="flex flex-col gap-6">
-              <div className="space-y-4">
-                <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
-                  <BlurText
-                    text="About"
-                    animateOn="view"
-                    revealDirection="word"
-                    duration={600}
-                    initialBlur={10}
-                    staggerDelay={0.05}
-                  />
-                </h2>
-                <div className="space-y-3">
-                  <p className="text-lg leading-relaxed text-zinc-700 sm:text-xl dark:text-zinc-300">
-                    <BlurText
-                      text="I'm passionate about creating AI systems that enhance rather than replace human capabilities."
-                      animateOn="view"
-                      revealDirection="word"
-                      duration={600}
-                      initialBlur={8}
-                      staggerDelay={0.02}
-                      delay={200}
-                    />
-                  </p>
-                  <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    <BlurText
-                      text="My work sits at the intersection of quantitative research, software development, and mechanical design. I focus on making complex systems work together—whether that's building NLP pipelines to analyze thousands of market documents, developing high-performance web apps, or designing hardware for autonomous systems. I'm driven by the challenge of translating complex technical requirements into tools that actually feel intuitive to the people using them."
-                      animateOn="view"
-                      revealDirection="word"
-                      duration={600}
-                      initialBlur={6}
-                      staggerDelay={0.02}
-                      delay={400}
-                    />
-                  </p>
-                </div>
-              </div>
+          <div ref={aboutSectionRef} className="w-full space-y-4">
+            <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
+              <BlurText
+                text="About"
+                animateOn="view"
+                revealDirection="word"
+                duration={600}
+                initialBlur={10}
+                staggerDelay={0.05}
+              />
+            </h2>
+            <div className="space-y-3">
+              <p className="text-lg leading-relaxed text-zinc-700 sm:text-xl dark:text-zinc-300">
+                <BlurText
+                  text="I'm passionate about creating AI systems that enhance rather than replace human capabilities."
+                  animateOn="view"
+                  revealDirection="word"
+                  duration={600}
+                  initialBlur={8}
+                  staggerDelay={0.02}
+                  delay={200}
+                />
+              </p>
+              <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+                <BlurText
+                  text="My work sits at the intersection of quantitative research, software development, and mechanical design. I focus on making complex systems work together—whether that's building NLP pipelines to analyze thousands of market documents, developing high-performance web apps, or designing hardware for autonomous systems. I'm driven by the challenge of translating complex technical requirements into tools that actually feel intuitive to the people using them."
+                  animateOn="view"
+                  revealDirection="word"
+                  duration={600}
+                  initialBlur={6}
+                  staggerDelay={0.02}
+                  delay={400}
+                />
+              </p>
             </div>
           </div>
 
