@@ -7,10 +7,19 @@ interface DotBackgroundProps {
   disabledZones?: RefObject<HTMLElement | null>[];
 }
 
+interface DisabledZoneRect {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+
 export default function DotBackground({ disabledZones = [] }: DotBackgroundProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
+  const [disabledZoneRects, setDisabledZoneRects] = useState<DisabledZoneRect[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const isInDisabledZone = (clientX: number, clientY: number) =>
@@ -46,8 +55,48 @@ export default function DotBackground({ disabledZones = [] }: DotBackgroundProps
     };
   }, [disabledZones]);
 
+  useEffect(() => {
+    const updateDisabledZoneRects = () => {
+      const background = backgroundRef.current;
+      if (!background) return;
+
+      const backgroundRect = background.getBoundingClientRect();
+
+      setDisabledZoneRects(
+        disabledZones.flatMap((ref) => {
+          if (!ref.current) return [];
+
+          const rect = ref.current.getBoundingClientRect();
+          return [
+            {
+              left: rect.left - backgroundRect.left,
+              top: rect.top - backgroundRect.top,
+              width: rect.width,
+              height: rect.height,
+            },
+          ];
+        }),
+      );
+    };
+
+    const resizeObserver = new ResizeObserver(updateDisabledZoneRects);
+    const animationFrame = requestAnimationFrame(updateDisabledZoneRects);
+
+    if (backgroundRef.current) resizeObserver.observe(backgroundRef.current);
+    disabledZones.forEach((ref) => {
+      if (ref.current) resizeObserver.observe(ref.current);
+    });
+    window.addEventListener("resize", updateDisabledZoneRects);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateDisabledZoneRects);
+    };
+  }, [disabledZones]);
+
   return (
-    <>
+    <div ref={backgroundRef} className="pointer-events-none absolute inset-0">
       {/* Base Pattern - Visible everywhere but subtle */}
       <div className="absolute inset-0 bg-size-[20px_20px] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)]" />
 
@@ -63,8 +112,23 @@ export default function DotBackground({ disabledZones = [] }: DotBackgroundProps
         }}
       />
 
+      {/* Keep the brighter hover dots outside text-heavy sections. */}
+      {disabledZoneRects.map((rect, index) => (
+        <div
+          key={index}
+          className="absolute bg-size-[20px_20px] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)]"
+          style={{
+            left: rect.left,
+            top: rect.top,
+            width: rect.width,
+            height: rect.height,
+            backgroundPosition: `${-rect.left}px ${-rect.top}px`,
+          }}
+        />
+      ))}
+
       {/* Vignette Overlay */}
       <div className="pointer-events-none absolute inset-0 bg-white mask-[radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
-    </>
+    </div>
   );
 }
