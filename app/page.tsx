@@ -285,7 +285,7 @@ function ProjectsSection({
               key={project.title}
               className="group grid grid-cols-[5rem_1fr] items-start gap-6 py-8 sm:grid-cols-[6rem_1fr] sm:gap-12"
             >
-              <span className="text-5xl font-bold leading-none tracking-tight text-zinc-200 dark:text-zinc-800 group-hover:text-zinc-300 dark:group-hover:text-zinc-700 transition-colors select-none">
+              <span className="text-5xl font-bold leading-none tracking-tight text-zinc-200 dark:text-zinc-800 group-hover:text-zinc-50 dark:group-hover:text-zinc-400 transition-colors duration-0 select-none">
                 {String(index + 1).padStart(2, "0")}
               </span>
 
