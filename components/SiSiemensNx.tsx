@@ -4,7 +4,7 @@ import { IconBaseProps } from "react-icons";
 export function SiSiemensNx(props: IconBaseProps) {
   return (
     <svg
-      viewBox="0 0 666.00013 668.00035"
+      viewBox="0 0 666 668"
       height="1em"
       width="1em"
       xmlns="http://www.w3.org/2000/svg"
@@ -53,11 +53,11 @@ export function SiSiemensNx(props: IconBaseProps) {
       </defs>
       <path
         id="path1"
-        d="M 184.00023,-5.5152537e-7 82.99984,1.0005395 82,85.00007 H 6.9997697 L 1.5968023e-4,85.99992 V 667.00054 L 4.0002297,668.00039 H 581.99992 l 0.99985,-45.99985 V 585 l 81,1.00054 L 665.00031,585 666.00016,2.0003895 665.00031,1.0005395 465.99977,-5.5152527e-7 Z"
+        d="M 184,0 83,1 82,85 H 7 L 0,86 V 667 L 4,668 H 582 l 1,-46 V 585 l 81,1 L 665,585 666,2 665,1 466,0 Z"
         style={{ fill: "#92160a", fillOpacity: 1, filter: "url(#filter14)" }}
       />
       <path
-        d="M 6.9999997,85.00023 H 83 l 1,187 v 311 l 1,1 498,1 v 37 l -1,46 H 0.99999968 l -0.99999999977285,-1 v -581 z"
+        d="M 7,85 H 83 l 1,187 v 311 l 1,1 498,1 v 37 l -1,46 H 1 l -1,-1 V 86 Z"
         fill="#009697"
         id="path3"
         style={{ filter: "url(#filter13)" }}

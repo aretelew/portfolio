@@ -1,14 +1,15 @@
 "use client";
 
 import BlurText from "@/components/BlurText";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import DotBackground from "@/components/DotBackground";
 import { Button } from "@/components/ui/button";
 // Featured project modals are shelved for now:
 // import ProjectModal from "@/components/ProjectModal";
 import ThemeToggle from "@/components/ThemeToggle";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, type RefObject } from "react";
 import {
   Mail,
   FileText,
@@ -28,31 +29,6 @@ import {
 } from "react-icons/si";
 import { SiSiemensNx } from "@/components/SiSiemensNx";
 
-
-export default function Home() {
-  const projectsSectionRef = useRef<HTMLElement>(null);
-  const toolsCardsRef = useRef<HTMLDivElement>(null);
-  const expertiseCardsRef = useRef<HTMLDivElement>(null);
-  const educationCardsRef = useRef<HTMLDivElement>(null);
-  const aboutSectionRef = useRef<HTMLDivElement>(null);
-  const [showScrollArrow, setShowScrollArrow] = useState(true);
-  const [emailCopied, setEmailCopied] = useState(false);
-  // Featured project modals are shelved for now:
-  // const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setShowScrollArrow(false);
-      } else {
-        setShowScrollArrow(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const motto = "Engineering technologies for a smarter future.";
   const descriptionLine1 = "software developer, quant researcher, &";
@@ -210,80 +186,233 @@ export default function Home() {
     },
   ];
 
+function HeroSection() {
+  const [showScrollArrow, setShowScrollArrow] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollArrow(window.scrollY <= 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <section className="relative flex min-h-dvh w-full flex-col items-center justify-center gap-4 text-center">
+      <h1 className="max-w-2xl text-balance text-3xl font-medium italic tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
+        <BlurText
+          text={motto}
+          animateOn="view"
+          revealDirection="word"
+          duration={750}
+          initialBlur={10}
+          staggerDelay={0.05}
+        />
+      </h1>
+      <p className="max-w-2xl text-balance text-sm font-mono tracking-tight text-zinc-700 sm:text-base dark:text-zinc-300">
+        <BlurText
+          text={descriptionLine1}
+          animateOn="view"
+          revealDirection="word"
+          duration={500}
+          initialBlur={8}
+          staggerDelay={0.04}
+          delay={300}
+        />
+        <br />
+        <BlurText
+          text={descriptionLine2}
+          animateOn="view"
+          revealDirection="word"
+          duration={500}
+          initialBlur={8}
+          staggerDelay={0.04}
+          delay={400}
+        />
+      </p>
+
+      <div
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 motion-safe:animate-bounce transition-opacity duration-500 ${
+          showScrollArrow ? "opacity-100" : "opacity-0"
+        }`}
+        aria-label="Scroll down"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-6 w-6 text-zinc-500 dark:text-zinc-400"
+          aria-hidden="true"
+        >
+          <path d="M12 5v14" />
+          <path d="m19 12-7 7-7-7" />
+        </svg>
+      </div>
+    </section>
+  );
+}
+
+function ProjectsSection({
+  sectionRef,
+}: {
+  sectionRef: RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <section className="w-full max-w-6xl py-20 sm:py-24">
+      <div ref={sectionRef} className="flex flex-col gap-12">
+        <h2 className="text-left text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
+          <BlurText
+            text="Featured Projects"
+            animateOn="view"
+            revealDirection="word"
+            duration={600}
+            initialBlur={10}
+            staggerDelay={0.05}
+          />
+        </h2>
+
+        <div className="flex flex-col">
+          {projects.map((project, index) => (
+            <article
+              key={project.title}
+              className="group grid grid-cols-[5rem_1fr] items-start gap-6 py-8 sm:grid-cols-[6rem_1fr] sm:gap-12"
+            >
+              <span className="text-5xl font-bold leading-none tracking-tight text-zinc-200 dark:text-zinc-800 group-hover:text-zinc-300 dark:group-hover:text-zinc-700 transition-colors select-none">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <div className="flex flex-col gap-3 pt-1">
+                <h3 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap items-center gap-2 pt-1">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-xs text-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-400"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 ml-5"
+                    >
+                      <FaGithub className="size-3.5" />
+                      GitHub
+                    </a>
+                  )}
+                  {"demo" in project && project.demo && (
+                    <a
+                      href={project.demo as string}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 ml-2"
+                    >
+                      <ExternalLink className="size-3.5" />
+                      Visit
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PortfolioFooter() {
+  return (
+    <footer className="relative z-10 w-full px-6 pt-8 sm:px-10 lg:px-12">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="relative">
+          <div className="absolute top-0 left-0 right-0 z-10 flex flex-wrap items-start justify-between gap-4 pt-2 text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="flex items-center gap-4">
+              <a
+                href="https://github.com/aretelew"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+              >
+                GitHub
+              </a>
+              <a
+                href="https://www.linkedin.com/in/aretelew/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="mailto:aretelew@gmail.com"
+                className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
+              >
+                Email
+              </a>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <span>© {new Date().getFullYear()} All rights reserved.</span>
+              <ThemeToggle />
+            </div>
+          </div>
+
+          <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden [container-type:inline-size]">
+            <h2 className="w-max whitespace-nowrap select-none -mt-[0.14em] text-[26.85cqw] sm:text-[26.35cqw] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
+              aretelew
+            </h2>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default function Home() {
+  const projectsSectionRef = useRef<HTMLDivElement>(null);
+  const toolsCardsRef = useRef<HTMLDivElement>(null);
+  const expertiseCardsRef = useRef<HTMLDivElement>(null);
+  const educationCardsRef = useRef<HTMLDivElement>(null);
+  const aboutSectionRef = useRef<HTMLDivElement>(null);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const disabledZones = useMemo(
+    () => [
+      aboutSectionRef,
+      toolsCardsRef,
+      expertiseCardsRef,
+      educationCardsRef,
+      projectsSectionRef,
+    ],
+    [],
+  );
+  // Featured project modals are shelved for now:
+  // const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="relative overflow-hidden bg-white font-sans dark:bg-zinc-950">
       {/* Dot background with hover effect */}
-      <DotBackground
-        disabledZones={[
-          aboutSectionRef,
-          toolsCardsRef,
-          expertiseCardsRef,
-          educationCardsRef,
-          projectsSectionRef,
-        ]}
-      />
+      <DotBackground disabledZones={disabledZones} />
 
       {/* Content */}
       <main className="relative z-10 flex w-full flex-col items-center px-6 sm:px-10 lg:px-12">
-        {/* Hero Section */}
-        <section className="relative flex min-h-screen w-full flex-col items-center justify-center gap-4 text-center">
-          <h1 className="max-w-2xl text-balance text-3xl font-medium italic tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
-            <BlurText
-              text={motto}
-              animateOn="view"
-              revealDirection="word"
-              duration={750}
-              initialBlur={10}
-              staggerDelay={0.05}
-            />
-          </h1>
-          <p className="max-w-2xl text-balance text-sm font-mono tracking-tight text-zinc-700 sm:text-base dark:text-zinc-300">
-            <BlurText
-              text={descriptionLine1}
-              animateOn="view"
-              revealDirection="word"
-              duration={500}
-              initialBlur={8}
-              staggerDelay={0.04}
-              delay={300}
-            />
-            <br />
-            <BlurText
-              text={descriptionLine2}
-              animateOn="view"
-              revealDirection="word"
-              duration={500}
-              initialBlur={8}
-              staggerDelay={0.04}
-              delay={400}
-            />
-          </p>
-
-          {/* Scroll Down Arrow */}
-          <div
-            className={`absolute bottom-8 left-1/2 -translate-x-1/2 motion-safe:animate-bounce transition-opacity duration-500 ${
-              showScrollArrow ? "opacity-100" : "opacity-0"
-            }`}
-            aria-label="Scroll down"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-6 w-6 text-zinc-500 dark:text-zinc-400"
-              aria-hidden="true"
-            >
-              <path d="M12 5v14" />
-              <path d="m19 12-7 7-7-7" />
-            </svg>
-          </div>
-        </section>
+        <HeroSection />
 
         {/* About Section */}
         <section className="w-full max-w-6xl py-20 sm:py-24">
@@ -483,7 +612,7 @@ export default function Home() {
               >
                 <AnimatePresence mode="wait" initial={false}>
                   {emailCopied ? (
-                    <motion.span
+                    <m.span
                       key="check"
                       initial={{ rotateZ: -180, opacity: 0 }}
                       animate={{ rotateZ: 0, opacity: 1 }}
@@ -492,9 +621,9 @@ export default function Home() {
                       style={{ display: "inline-flex" }}
                     >
                       <Check className="size-4" />
-                    </motion.span>
+                    </m.span>
                   ) : (
-                    <motion.span
+                    <m.span
                       key="copy"
                       initial={{ rotateZ: -180, opacity: 0 }}
                       animate={{ rotateZ: 0, opacity: 1 }}
@@ -503,7 +632,7 @@ export default function Home() {
                       style={{ display: "inline-flex" }}
                     >
                       <Copy className="size-4" />
-                    </motion.span>
+                    </m.span>
                   )}
                 </AnimatePresence>
               </Button>
@@ -527,128 +656,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Projects Section */}
-        <section className="w-full max-w-6xl py-20 sm:py-24">
-          <div ref={projectsSectionRef} className="flex flex-col gap-12">
-            {/* Section Heading */}
-            <h2 className="text-left text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
-              <BlurText
-                text="Featured Projects"
-                animateOn="view"
-                revealDirection="word"
-                duration={600}
-                initialBlur={10}
-                staggerDelay={0.05}
-              />
-            </h2>
-
-            {/* Numbered List */}
-            <div className="flex flex-col">
-              {projects.map((project, index) => (
-                <article
-                  key={project.title}
-                  className="group grid grid-cols-[5rem_1fr] items-start gap-6 py-8 sm:grid-cols-[6rem_1fr] sm:gap-12"
-                >
-                  {/* Number */}
-                  <span className="text-5xl font-bold leading-none tracking-tight text-zinc-200 dark:text-zinc-800 group-hover:text-zinc-300 dark:group-hover:text-zinc-700 transition-colors select-none">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  {/* Title + Description + Tech + Links */}
-                  <div className="flex flex-col gap-3 pt-1">
-                    <h3 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-                      {project.description}
-                    </p>
-                    {/* Tech pills + links inline */}
-                    <div className="flex flex-wrap items-center gap-2 pt-1">
-                      {project.tech.map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-md bg-zinc-100 px-2 py-1 font-mono text-xs text-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-400"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 ml-5"
-                        >
-                          <FaGithub className="size-3.5" />
-                          GitHub
-                        </a>
-                      )}
-                      {"demo" in project && project.demo && (
-                        <a
-                          href={project.demo as string}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-zinc-50 ml-2"
-                        >
-                          <ExternalLink className="size-3.5" />
-                          Visit
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+        <ProjectsSection sectionRef={projectsSectionRef} />
       </main>
 
-      {/* Large Text Footer Effect */}
-      <footer className="relative z-10 w-full px-6 pt-8 sm:px-10 lg:px-12">
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="relative">
-            {/* Links overlaid directly on top of the letters */}
-            <div className="absolute top-0 left-0 right-0 z-10 flex flex-wrap items-start justify-between gap-4 pt-2 text-xs text-zinc-600 dark:text-zinc-400">
-              <div className="flex items-center gap-4">
-                <a
-                  href="https://github.com/aretelew"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-                >
-                  GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/aretelew/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="mailto:aretelew@gmail.com"
-                  className="transition-colors hover:text-zinc-900 dark:hover:text-zinc-50"
-                >
-                  Email
-                </a>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <span>© {new Date().getFullYear()} All rights reserved.</span>
-                <ThemeToggle />
-              </div>
-            </div>
-
-            {/* Stable clipping keeps the text intersecting the page bottom on every viewport */}
-            <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden [container-type:inline-size]">
-              <h2 className="w-max whitespace-nowrap select-none -mt-[0.14em] text-[26.85cqw] sm:text-[26.35cqw] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
-                aretelew
-              </h2>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <PortfolioFooter />
 
       {/*
         Project Modal (shelved for now)

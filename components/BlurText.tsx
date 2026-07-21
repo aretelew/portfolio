@@ -1,7 +1,24 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { motion, HTMLMotionProps } from "motion/react";
+import { useEffect, useState, useRef, useSyncExternalStore } from "react";
+import { HTMLMotionProps } from "motion/react";
+import * as m from "motion/react-m";
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
+  mediaQuery.addEventListener("change", onStoreChange);
+  return () => mediaQuery.removeEventListener("change", onStoreChange);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
+}
 
 const styles = {
   wrapper: {
@@ -46,27 +63,21 @@ export default function BlurText({
 }: BlurTextProps) {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [hasAnimated, setHasAnimated] = useState<boolean>(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(
-    () => typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot,
   );
   const containerRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
-
-  useEffect(() => {
     if (animateOn !== "view" && animateOn !== "both") return;
 
+    let activationTimer: ReturnType<typeof setTimeout> | undefined;
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && !hasAnimated) {
-          setTimeout(() => {
+          activationTimer = setTimeout(() => {
             setIsActive(true);
             setHasAnimated(true);
           }, delay);
@@ -90,6 +101,7 @@ export default function BlurText({
     }
 
     return () => {
+      if (activationTimer) clearTimeout(activationTimer);
       if (currentRef) {
         observer.unobserve(currentRef);
       }
@@ -109,7 +121,7 @@ export default function BlurText({
   // All at once animation
   if (revealDirection === "all") {
     return (
-      <motion.span
+      <m.span
         className={`${parentClassName} ${className}`}
         ref={containerRef}
         style={styles.wrapper}
@@ -118,7 +130,7 @@ export default function BlurText({
       >
         <span style={styles.srOnly}>{text}</span>
 
-        <motion.span
+        <m.span
           aria-hidden="true"
           initial={prefersReducedMotion ? { filter: "blur(0px)", opacity: 1 } : { filter: `blur(${initialBlur}px)`, opacity: 0 }}
           animate={
@@ -133,8 +145,8 @@ export default function BlurText({
           }
         >
           {text}
-        </motion.span>
-      </motion.span>
+        </m.span>
+      </m.span>
     );
   }
 
@@ -143,7 +155,7 @@ export default function BlurText({
     const words = text.split(" ");
 
     return (
-      <motion.span
+      <m.span
         className={parentClassName}
         ref={containerRef}
         style={styles.wrapper}
@@ -154,7 +166,7 @@ export default function BlurText({
 
         <span aria-hidden="true">
           {words.map((word, index) => (
-            <motion.span
+            <m.span
               key={index}
               className={className}
               initial={prefersReducedMotion ? { filter: "blur(0px)", opacity: 1 } : { filter: `blur(${initialBlur}px)`, opacity: 0 }}
@@ -175,16 +187,16 @@ export default function BlurText({
               style={{ display: "inline-block", marginRight: "0.25em" }}
             >
               {word}
-            </motion.span>
+            </m.span>
           ))}
         </span>
-      </motion.span>
+      </m.span>
     );
   }
 
   // Sequential character-by-character animation
   return (
-    <motion.span
+    <m.span
       className={parentClassName}
       ref={containerRef}
       style={styles.wrapper}
@@ -195,7 +207,7 @@ export default function BlurText({
 
       <span aria-hidden="true">
         {text.split("").map((char, index) => (
-          <motion.span
+          <m.span
             key={index}
             className={className}
             initial={prefersReducedMotion ? { filter: "blur(0px)", opacity: 1 } : { filter: `blur(${initialBlur}px)`, opacity: 0 }}
@@ -216,9 +228,9 @@ export default function BlurText({
             style={{ display: "inline-block" }}
           >
             {char === " " ? "\u00A0" : char}
-          </motion.span>
+          </m.span>
         ))}
       </span>
-    </motion.span>
+    </m.span>
   );
 }

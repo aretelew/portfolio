@@ -1,7 +1,8 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
@@ -39,6 +40,7 @@ export default function ThemeToggle() {
   if (!mounted) {
     return (
       <button
+        type="button"
         className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
         aria-label="Toggle theme"
       >
@@ -49,6 +51,7 @@ export default function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
       className="text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
@@ -56,7 +59,7 @@ export default function ThemeToggle() {
     >
       <AnimatePresence mode="wait" initial={false}>
         {theme === "dark" ? (
-          <motion.span
+          <m.span
             key="sun"
             initial={{ rotateZ: -180, opacity: 0 }}
             animate={{ rotateZ: 0, opacity: 1 }}
@@ -65,9 +68,9 @@ export default function ThemeToggle() {
             style={{ display: "inline-flex" }}
           >
             <Sun className="h-5 w-5" />
-          </motion.span>
+          </m.span>
         ) : (
-          <motion.span
+          <m.span
             key="moon"
             initial={{ rotateZ: -180, opacity: 0 }}
             animate={{ rotateZ: 0, opacity: 1 }}
@@ -76,7 +79,7 @@ export default function ThemeToggle() {
             style={{ display: "inline-flex" }}
           >
             <Moon className="h-5 w-5" />
-          </motion.span>
+          </m.span>
         )}
       </AnimatePresence>
     </button>

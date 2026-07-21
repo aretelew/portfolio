@@ -7,6 +7,8 @@ interface DotBackgroundProps {
   disabledZones?: RefObject<HTMLElement | null>[];
 }
 
+const EMPTY_DISABLED_ZONES: RefObject<HTMLElement | null>[] = [];
+
 interface DisabledZoneRect {
   left: number;
   top: number;
@@ -14,7 +16,9 @@ interface DisabledZoneRect {
   height: number;
 }
 
-export default function DotBackground({ disabledZones = [] }: DotBackgroundProps) {
+export default function DotBackground({
+  disabledZones = EMPTY_DISABLED_ZONES,
+}: DotBackgroundProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [visible, setVisible] = useState(false);
   const [disabledZoneRects, setDisabledZoneRects] = useState<DisabledZoneRect[]>([]);
@@ -82,14 +86,17 @@ export default function DotBackground({ disabledZones = [] }: DotBackgroundProps
     const resizeObserver = new ResizeObserver(updateDisabledZoneRects);
     const animationFrame = requestAnimationFrame(updateDisabledZoneRects);
 
-    if (backgroundRef.current) resizeObserver.observe(backgroundRef.current);
-    disabledZones.forEach((ref) => {
-      if (ref.current) resizeObserver.observe(ref.current);
-    });
+    const observedElements: Element[] = [];
+    if (backgroundRef.current) observedElements.push(backgroundRef.current);
+    for (const ref of disabledZones) {
+      if (ref.current) observedElements.push(ref.current);
+    }
+    observedElements.forEach((element) => resizeObserver.observe(element));
     window.addEventListener("resize", updateDisabledZoneRects);
 
     return () => {
       cancelAnimationFrame(animationFrame);
+      observedElements.forEach((element) => resizeObserver.unobserve(element));
       resizeObserver.disconnect();
       window.removeEventListener("resize", updateDisabledZoneRects);
     };
@@ -113,9 +120,9 @@ export default function DotBackground({ disabledZones = [] }: DotBackgroundProps
       />
 
       {/* Keep the brighter hover dots outside text-heavy sections. */}
-      {disabledZoneRects.map((rect, index) => (
+      {disabledZoneRects.map((rect) => (
         <div
-          key={index}
+          key={`${rect.left}-${rect.top}-${rect.width}-${rect.height}`}
           className="absolute bg-size-[20px_20px] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#27272a_1px,transparent_1px)]"
           style={{
             left: rect.left,

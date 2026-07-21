@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, HTMLMotionProps } from "motion/react";
+import { HTMLMotionProps } from "motion/react";
+import * as m from "motion/react-m";
 
 const styles = {
   wrapper: {
@@ -48,7 +49,7 @@ export default function DecryptedText({
   animateOn = "hover",
   ...props
 }: DecryptedTextProps) {
-  const [displayText, setDisplayText] = useState<string>(text);
+  const [scrambledText, setScrambledText] = useState<string | null>(null);
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const [isScrambling, setIsScrambling] = useState<boolean>(false);
   const [revealedIndices, setRevealedIndices] = useState<Set<number>>(
@@ -121,9 +122,12 @@ export default function DecryptedText({
           isRevealed: currentRevealed.has(i),
         }));
 
-        const nonSpaceChars = positions
-          .filter((p) => !p.isSpace && !p.isRevealed)
-          .map((p) => p.char);
+        const nonSpaceChars: string[] = [];
+        for (const position of positions) {
+          if (!position.isSpace && !position.isRevealed) {
+            nonSpaceChars.push(position.char);
+          }
+        }
 
         for (let i = nonSpaceChars.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -157,34 +161,33 @@ export default function DecryptedText({
 
     if (isHovering && !prefersReducedMotion) {
       setIsScrambling(true);
+      let revealed = new Set<number>();
       interval = setInterval(() => {
-        setRevealedIndices((prevRevealed) => {
-          if (sequential) {
-            if (prevRevealed.size < text.length) {
-              const nextIndex = getNextIndex(prevRevealed);
-              const newRevealed = new Set(prevRevealed);
-              newRevealed.add(nextIndex);
-              setDisplayText(shuffleText(text, newRevealed));
-              return newRevealed;
-            } else {
-              clearInterval(interval);
-              setIsScrambling(false);
-              return prevRevealed;
-            }
+        if (sequential) {
+          if (revealed.size < text.length) {
+            const nextIndex = getNextIndex(revealed);
+            revealed = new Set(revealed);
+            revealed.add(nextIndex);
+            setRevealedIndices(revealed);
+            setScrambledText(shuffleText(text, revealed));
           } else {
-            setDisplayText(shuffleText(text, prevRevealed));
-            currentIteration++;
-            if (currentIteration >= maxIterations) {
-              clearInterval(interval);
-              setIsScrambling(false);
-              setDisplayText(text);
-            }
-            return prevRevealed;
+            clearInterval(interval);
+            setIsScrambling(false);
+            setScrambledText(null);
           }
-        });
+          return;
+        }
+
+        setScrambledText(shuffleText(text, revealed));
+        currentIteration++;
+        if (currentIteration >= maxIterations) {
+          clearInterval(interval);
+          setIsScrambling(false);
+          setScrambledText(null);
+        }
       }, speed);
     } else {
-      setDisplayText(text);
+      setScrambledText(null);
       setRevealedIndices(new Set());
       setIsScrambling(false);
     }
@@ -246,8 +249,10 @@ export default function DecryptedText({
         }
       : {};
 
+  const displayText = scrambledText ?? text;
+
   return (
-    <motion.span
+    <m.span
       className={parentClassName}
       ref={containerRef}
       style={styles.wrapper}
@@ -271,6 +276,6 @@ export default function DecryptedText({
           );
         })}
       </span>
-    </motion.span>
+    </m.span>
   );
 }

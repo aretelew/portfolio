@@ -80,14 +80,15 @@ export default function ProjectModal({
               }`}>
                 {project.images.map((image, index) => (
                   <div
-                    key={index}
-                    className="group relative aspect-video overflow-hidden rounded-lg border-2 border-zinc-200 bg-zinc-50 transition-all hover:border-white hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-white"
+                    key={image}
+                    className="group relative aspect-video overflow-hidden rounded-lg border-2 border-zinc-200 bg-zinc-50 transition-[border-color,box-shadow] hover:border-white hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-white"
                   >
                     <Image
                       src={image}
                       alt={`${project.title} screenshot ${index + 1}`}
                       fill
                       className="object-cover"
+                      sizes="(min-width: 768px) 22rem, 50vw"
                     />
                   </div>
                 ))}
