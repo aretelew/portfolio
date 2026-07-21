@@ -232,11 +232,12 @@ function HeroSection() {
         />
       </p>
 
-      <div
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 motion-safe:animate-bounce transition-opacity duration-500 ${
-          showScrollArrow ? "opacity-100" : "opacity-0"
+      <a
+        href="#main-content"
+        className={`absolute bottom-8 left-1/2 inline-flex size-11 -translate-x-1/2 items-center justify-center rounded-full text-zinc-500 motion-safe:animate-bounce transition-opacity duration-500 hover:text-zinc-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 dark:text-zinc-400 dark:hover:text-white dark:focus-visible:outline-zinc-50 ${
+          showScrollArrow ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
-        aria-label="Scroll down"
+        aria-label="Scroll to main content"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -248,13 +249,13 @@ function HeroSection() {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="h-6 w-6 text-zinc-500 dark:text-zinc-400"
+          className="h-6 w-6 transition-colors duration-200"
           aria-hidden="true"
         >
           <path d="M12 5v14" />
           <path d="m19 12-7 7-7-7" />
         </svg>
-      </div>
+      </a>
     </section>
   );
 }
@@ -415,7 +416,7 @@ export default function Home() {
         <HeroSection />
 
         {/* About Section */}
-        <section className="w-full max-w-6xl py-20 sm:py-24">
+        <section id="main-content" className="w-full max-w-6xl py-20 sm:py-24">
           <div ref={aboutSectionRef} className="w-full space-y-4">
             <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
               <BlurText
