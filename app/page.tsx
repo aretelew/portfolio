@@ -12,10 +12,6 @@ import { useState, useEffect, useRef } from "react";
 import {
   Mail,
   FileText,
-  TrendingUp,
-  Wrench,
-  UserCheck,
-  Terminal,
   Copy,
   Check,
   ExternalLink,
@@ -27,7 +23,6 @@ import {
   SiTypescript,
   SiPython,
   SiPytorch,
-  SiNodedotjs,
   SiAnsys,
   SiDassaultsystemes,
 } from "react-icons/si";
@@ -36,6 +31,9 @@ import { SiSiemensNx } from "@/components/SiSiemensNx";
 
 export default function Home() {
   const projectsSectionRef = useRef<HTMLElement>(null);
+  const toolsCardsRef = useRef<HTMLDivElement>(null);
+  const expertiseCardsRef = useRef<HTMLDivElement>(null);
+  const educationCardsRef = useRef<HTMLDivElement>(null);
   const aboutSectionRef = useRef<HTMLDivElement>(null);
   const [showScrollArrow, setShowScrollArrow] = useState(true);
   const [emailCopied, setEmailCopied] = useState(false);
@@ -64,39 +62,35 @@ export default function Home() {
     {
       title: "Quantitative Analysis & AI",
       description:
-        "Developing NLP models and data pipelines to extract actionable market insights.",
+        "Building NLP models and data pipelines to extract actionable insights from market documents.",
       highlights: [
         "Sentiment Analysis & NLP",
         "Predictive Modeling & Feature Eng.",
       ],
-      icon: TrendingUp,
     },
     {
       title: "Full-Stack Engineering",
       description:
-        "Architecting performant web systems and tools using modern TypeScript ecosystems.",
+        "Building performant web systems and tools with modern TypeScript and intuitive interfaces.",
       highlights: ["React, Next.js, & Vite", "System Optimization & UX"],
-      icon: Terminal,
     },
     {
       title: "Mechanical Design",
       description:
-        "Designing and manufacturing autonomous systems with CAD and advanced fabrication.",
+        "Designing and manufacturing autonomous systems with CAD and fabrication.",
       highlights: [
         "CAD (SolidWorks, NX) & Manufacturing",
         "Autonomous Navigation Systems",
       ],
-      icon: Wrench,
     },
     {
       title: "Technical Leadership",
       description:
-        "Leading cross-functional teams to deliver complex engineering and logistical projects.",
+        "Leading teams to deliver complex engineering and logistics projects.",
       highlights: [
         "Project Management & Strategy",
         "Team Mentorship & Logistics",
       ],
-      icon: UserCheck,
     },
   ];
 
@@ -107,7 +101,6 @@ export default function Home() {
     { name: "Next.js", icon: SiNextdotjs },
     { name: "TypeScript", icon: SiTypescript },
     { name: "PyTorch", icon: SiPytorch },
-    { name: "Node.js", icon: SiNodedotjs },
     { name: "Siemens NX", icon: SiSiemensNx },
     { name: "Ansys", icon: SiAnsys },
     { name: "Solidworks", icon: SiDassaultsystemes },
@@ -119,12 +112,14 @@ export default function Home() {
       degree: "BS Computer Science, Minor in Math & Mech. Design",
       period: "2024 - Present",
       logo: "/cwru-seal.avif",
+      logoClassName: "object-contain",
     },
     {
       institution: "Deerfield High School",
-      degree: "High School Diploma",
+      degree: "",
       period: "2020 - 2024",
       logo: "/dhs-logo.png",
+      logoClassName: "object-contain scale-[0.89]",
     },
   ];
 
@@ -218,10 +213,18 @@ export default function Home() {
   return (
     <div className="relative overflow-hidden bg-white font-sans dark:bg-zinc-950">
       {/* Dot background with hover effect */}
-      <DotBackground disabledZones={[aboutSectionRef, projectsSectionRef]} />
+      <DotBackground
+        disabledZones={[
+          aboutSectionRef,
+          toolsCardsRef,
+          expertiseCardsRef,
+          educationCardsRef,
+          projectsSectionRef,
+        ]}
+      />
 
       {/* Content */}
-      <main className="relative z-10 flex w-full flex-col items-center px-6">
+      <main className="relative z-10 flex w-full flex-col items-center px-6 sm:px-10 lg:px-12">
         {/* Hero Section */}
         <section className="relative flex min-h-screen w-full flex-col items-center justify-center gap-4 text-center">
           <h1 className="max-w-2xl text-balance text-3xl font-medium italic tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
@@ -283,7 +286,7 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section className="w-full max-w-7xl py-20 sm:py-24">
+        <section className="w-full max-w-6xl py-20 sm:py-24">
           <div ref={aboutSectionRef} className="w-full space-y-4">
             <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
               <BlurText
@@ -298,7 +301,7 @@ export default function Home() {
             <div className="space-y-3">
               <p className="text-lg leading-relaxed text-zinc-700 sm:text-xl dark:text-zinc-300">
                 <BlurText
-                  text="I'm passionate about creating AI systems that enhance rather than replace human capabilities."
+                  text="I like building things that make people better at what they do, not replace them."
                   animateOn="view"
                   revealDirection="word"
                   duration={600}
@@ -309,7 +312,7 @@ export default function Home() {
               </p>
               <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
                 <BlurText
-                  text="My work sits at the intersection of quantitative research, software development, and mechanical design. I focus on making complex systems work together—whether that's building NLP pipelines to analyze thousands of market documents, developing high-performance web apps, or designing hardware for autonomous systems. I'm driven by the challenge of translating complex technical requirements into tools that actually feel intuitive to the people using them."
+                  text="Right now that's a mix of quant research, software, and hardware. I've written NLP pipelines to process thousands of market documents, built performant web apps, and designed hardware for autonomous systems. What I actually care about is taking a requirement that sounds complicated on paper and making it feel obvious to use."
                   animateOn="view"
                   revealDirection="word"
                   duration={600}
@@ -326,11 +329,11 @@ export default function Home() {
             <h3 className="mb-6 text-lg font-medium text-zinc-900 dark:text-zinc-50">
               Tools
             </h3>
-            <div className="flex flex-wrap gap-3">
+            <div ref={toolsCardsRef} className="flex flex-wrap gap-3">
               {techStack.map((tech) => (
                 <div
                   key={tech.name}
-                  className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white/50 px-4 py-3 transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                  className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-transparent px-4 py-3 transition-colors transition-shadow hover:border-zinc-300 hover:bg-transparent dark:border-zinc-800 dark:hover:border-zinc-700"
                 >
                   <tech.icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
                   <span className="text-sm font-medium text-zinc-900 dark:text-zinc-50">
@@ -348,23 +351,19 @@ export default function Home() {
               <h3 className="mb-6 text-lg font-medium text-zinc-900 dark:text-zinc-50">
                 Expertise Areas
               </h3>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div ref={expertiseCardsRef} className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {expertiseAreas.map((area, index) => {
-                  const Icon = area.icon;
                   return (
                     <div
                       key={area.title}
-                      className="group relative rounded-xl border border-zinc-200 bg-white/50 p-5 backdrop-blur-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                      className="group relative rounded-xl border border-zinc-200 bg-transparent p-5 transition-colors transition-shadow hover:border-zinc-300 hover:bg-transparent dark:border-zinc-800 dark:hover:border-zinc-700"
                       style={{
                         opacity: 0,
                         animation: `fadeIn 0.5s ease-out ${0.6 + index * 0.1}s forwards`,
                       }}
                       suppressHydrationWarning
                     >
-                      <div className="mb-3 flex items-center gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 transition-transform transition-colors motion-safe:group-hover:scale-110 group-hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:group-hover:border-zinc-600">
-                          <Icon className="h-5 w-5 text-zinc-700 dark:text-zinc-300" />
-                        </div>
+                      <div className="mb-3">
                         <h4 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
                           {area.title}
                         </h4>
@@ -391,38 +390,36 @@ export default function Home() {
               <h3 className="mb-5 text-lg font-medium text-zinc-900 dark:text-zinc-50">
                 Education
               </h3>
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+              <div ref={educationCardsRef} className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 {education.map((edu, index) => (
                   <div
                     key={edu.institution}
-                    className="group relative rounded-xl border border-zinc-200 bg-white/50 p-5 backdrop-blur-sm transition-colors transition-shadow hover:border-zinc-300 hover:bg-white/80 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-700 dark:hover:bg-zinc-900/80"
+                    className="group relative rounded-xl border border-zinc-200 bg-transparent px-5 py-4 transition-colors transition-shadow hover:border-zinc-300 hover:bg-transparent dark:border-zinc-800 dark:hover:border-zinc-700"
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3">
                       <div className="shrink-0">
-                        <div className="h-14 w-14 overflow-hidden rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-white">
+                        <div className="relative h-20 w-20 overflow-hidden rounded-lg border border-zinc-200 bg-white p-2 dark:border-zinc-700 dark:bg-white">
                           <Image
                             src={edu.logo}
                             alt={`${edu.institution} logo`}
-                            width={56}
-                            height={56}
-                            className="h-full w-full object-contain p-2"
+                            fill
+                            className={edu.logoClassName}
+                            sizes="5rem"
                           />
                         </div>
                       </div>
-                      <div className="flex flex-1 flex-col gap-2">
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="inline-flex items-center rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1 font-mono text-xs font-medium text-zinc-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300">
-                            <BlurText
-                              text={edu.period}
-                              animateOn="view"
-                              revealDirection="word"
-                              duration={400}
-                              initialBlur={4}
-                              staggerDelay={0.02}
-                              delay={300 + index * 150}
-                            />
-                          </span>
-                        </div>
+                      <div className="flex flex-1 flex-col gap-1.5">
+                        <p className="font-mono text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                          <BlurText
+                            text={edu.period}
+                            animateOn="view"
+                            revealDirection="word"
+                            duration={400}
+                            initialBlur={4}
+                            staggerDelay={0.02}
+                            delay={300 + index * 150}
+                          />
+                        </p>
                         <h4 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
                           <BlurText
                             text={edu.institution}
@@ -531,8 +528,8 @@ export default function Home() {
         </section>
 
         {/* Projects Section */}
-        <section ref={projectsSectionRef} className="w-full max-w-7xl py-20 sm:py-24">
-          <div className="flex flex-col gap-12">
+        <section className="w-full max-w-6xl py-20 sm:py-24">
+          <div ref={projectsSectionRef} className="flex flex-col gap-12">
             {/* Section Heading */}
             <h2 className="text-left text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
               <BlurText
@@ -607,8 +604,8 @@ export default function Home() {
       </main>
 
       {/* Large Text Footer Effect */}
-      <footer className="relative z-10 w-full pt-8">
-        <div className="mx-auto w-full max-w-7xl px-6">
+      <footer className="relative z-10 w-full px-6 pt-8 sm:px-10 lg:px-12">
+        <div className="mx-auto w-full max-w-6xl">
           <div className="relative">
             {/* Links overlaid directly on top of the letters */}
             <div className="absolute top-0 left-0 right-0 z-10 flex flex-wrap items-start justify-between gap-4 pt-2 text-xs text-zinc-600 dark:text-zinc-400">
@@ -644,8 +641,8 @@ export default function Home() {
             </div>
 
             {/* Stable clipping keeps the text intersecting the page bottom on every viewport */}
-            <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden">
-              <h2 className="select-none -mt-[0.14em] text-[clamp(5.5rem,23vw,20.5rem)] sm:text-[clamp(8rem,25.6vw,20.5rem)] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
+            <div className="h-[clamp(4.5rem,14.5vw,11.5rem)] overflow-hidden [container-type:inline-size]">
+              <h2 className="w-max whitespace-nowrap select-none -mt-[0.14em] text-[26.85cqw] sm:text-[26.35cqw] font-bold leading-none tracking-[-0.06em] sm:tracking-tighter text-zinc-900 dark:text-zinc-50">
                 aretelew
               </h2>
             </div>
