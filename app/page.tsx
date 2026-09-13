@@ -645,11 +645,7 @@ export default function Home() {
               size="lg"
               className="bg-white/50 backdrop-blur-sm hover:bg-white/80 hover:shadow-lg dark:bg-zinc-900/50 dark:hover:bg-zinc-900/80"
             >
-              <a
-                href="/retelewski-resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="/portfolio">
                 <FileText />
                 View Resume
               </a>
