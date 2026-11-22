@@ -1,0 +1,194 @@
+/* The home page. Colours are custom properties keyed on the `dark` class the root layout sets on
+   <html> before paint, so the server-rendered page shows the right theme on its first frame.
+   Faces come from ./fonts.ts: --font-serif (light for the big type, regular for names), --font-sans
+   (reading), --font-mono (small labels). */
+
+/* ---------------------------------------------------------------- colour */
+/* glyph / solid: how much ink a playing drawing and its solid fills use (softened in dark, where
+   light strokes look heavier and fills glare). mark-rest / mark-boost: the ~32px gutter marks have
+   ~1px lines that antialiasing greys out on a dark ground, so in dark they rest a step brighter
+   and their lines are thickened a little. */
+.hl {
+  --bg: #f4f1e8;
+  --ink: #1c1d19;
+  --muted: #62635a;
+  --accent: #9b4426;
+  --glyph-k: 100%;
+  --solid-k: 100%;
+  --mark-rest: #62635a;
+  --mark-boost: 0px;
+}
+html.dark .hl {
+  --bg: #0f1216;
+  --ink: #e7e3d7;
+  --muted: #9a9a91;
+  --accent: #e09a74;
+  --glyph-k: 84%;
+  --solid-k: 58%;
+  --mark-rest: #b3b0a6;
+  --mark-boost: 0.3px;
+}
+html:has(.hl) { background: #f4f1e8; }
+html.dark:has(.hl) { background: #0f1216; }
+
+/* ---------------------------------------------------------------- page */
+.hl {
+  --serif: var(--font-serif), Georgia, "Times New Roman", serif;
+  --line: color-mix(in srgb, var(--ink) 34%, var(--bg));
+  --soft: color-mix(in srgb, var(--ink) 80%, var(--bg));
+  /* knockout fill for drawings: the page colour */
+  --hl-paper: var(--bg);
+  /* the ink a playing drawing uses */
+  --glyph-ink: color-mix(in srgb, var(--ink) var(--glyph-k), var(--bg));
+  min-height: 100dvh;
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.62;
+  font-optical-sizing: auto;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.hl ::selection { background: color-mix(in srgb, var(--accent) 24%, var(--bg)); color: var(--ink); }
+.hl a, .hl button { -webkit-tap-highlight-color: transparent; }
+:where(.hl) button { font: inherit; letter-spacing: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+.hl :focus-visible { outline: 1.5px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+
+.hc-wrap { width: 100%; max-width: calc(36rem + 2 * var(--cpad)); margin-inline: auto; padding-inline: var(--cpad); --cpad: clamp(1.25rem, 5vw, 2rem); }
+.hl-enter { animation: hl-in 480ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@keyframes hl-in { from { opacity: 0; transform: translateY(6px); } }
+
+/* the shared type styles */
+.hl-muted { color: var(--muted); }
+.hl-nobr { white-space: nowrap; }
+.hl-mono {
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-feature-settings: "tnum";
+}
+.hc-org, .hc-school, .hc-row-t, .hc-ct-big, .hc-job-g {
+  font-family: var(--serif);
+  font-size: 1.14em;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+/* a link that underlines only on hover */
+.hc-org-a, .hc-row-t, .hc-ct-mail { text-decoration: underline 1px transparent; text-underline-offset: 0.22em; }
+.hc-org-a:hover, .hc-org-a:focus-visible, .hc-row:hover .hc-row-t, .hc-row:focus-visible .hc-row-t, .hc-ct-mail:hover, .hc-ct-mail:focus-visible { text-decoration-color: currentColor; }
+
+/* ---------------------------------------------------------------- intro */
+.hc-intro { padding-top: max(3rem, 50svh - 10.5rem); }
+/* ~25px on a phone, 26.8px from ~1100px up: about 1.55x the body everywhere */
+.hc-lede { font-family: var(--serif); font-weight: 300; font-size: clamp(1.55rem, 1.5rem + 0.25vw, 1.675rem); line-height: 1.24; letter-spacing: -0.018em; text-wrap: balance; }
+.hc-p { margin-top: 1.5rem; text-wrap: pretty; }
+.hc-socials { display: flex; flex-wrap: wrap; gap: 0.3rem 0.6rem; margin: 1.5rem 0 0 -0.5rem; }
+.hc-social { display: inline-flex; padding: 0.5rem; margin-block: -0.5rem; color: color-mix(in srgb, var(--ink) 70%, var(--bg)); }
+.hc-social:hover, .hc-social:focus-visible { color: var(--ink); }
+.hc-social svg { width: 1.3rem; height: 1.3rem; stroke-width: 1.6; }
+
+/* ---------------------------------------------------------------- sections */
+.hc-sec { padding-top: 6.25rem; scroll-margin-top: 1.5rem; }
+.hc-intro + .hc-sec { padding-top: 7rem; }
+.hc-sh { margin-bottom: 1.6rem; font-family: var(--serif); font-weight: 300; font-size: 1.5em; line-height: 1.25; letter-spacing: -0.014em; }
+
+/* teams: the mark in the gutter spans the name and the description, so a tall logo never pushes the description down */
+.hc-jobs { display: flex; flex-direction: column; gap: 1.35rem; }
+.hc-job { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: 0.75rem; align-items: baseline; }
+.hc-job > .hc-job-g { grid-row: 1 / 3; }
+.hc-job-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1rem 0.75rem; }
+.hc-org-a { padding-block: 0.2rem; margin-block: -0.2rem; }
+.hc-role { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 0.95em; }
+.hc-job-d { grid-column: 2; margin-top: 0.4rem; color: var(--soft); font-size: 0.95em; line-height: 1.55; text-wrap: pretty; }
+
+/* projects: the whole row is the link */
+.hc-rows { display: flex; flex-direction: column; gap: 0.15rem; }
+.hc-row { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: 0.75rem; align-items: baseline; width: calc(100% + 1rem); margin-inline: -0.5rem; padding: 0.55rem 0.5rem 0.6rem; border-radius: 5px; }
+.hc-row:focus-visible { outline-offset: -1px; }
+.hc-row > .hc-job-g { grid-area: 1 / 1; }
+.hc-row-s { grid-column: 2; margin-top: -0.25rem; color: var(--muted); font-size: 0.95em; line-height: 1.5; }
+
+/* education */
+.hc-dl { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.5rem 1rem; align-items: baseline; margin-top: 1.1rem; }
+.hc-dl dt { color: var(--muted); }
+
+/* off the clock */
+.hc-prose { text-wrap: pretty; line-height: 1.75; }
+
+/* ---------------------------------------------------------------- drawings */
+.hl-g { display: inline-block; position: relative; color: var(--muted); }
+.hl-g.is-on { color: var(--glyph-ink); }
+.hl-g > svg { position: absolute; left: 0; top: 0; }
+/* solid shapes in a drawing are toned down in dark so they don't glare */
+.hl-g svg [fill="currentColor"] { fill: color-mix(in srgb, currentColor var(--solid-k), var(--bg)); }
+.hl-g-after { margin-left: 0.24em; }
+/* gutter marks: brighter at rest and thicker lines in dark, fills at full strength */
+.hc-job-g .hl-g { color: var(--mark-rest); }
+.hc-job-g .hl-g.is-on { color: var(--glyph-ink); }
+.hc-job-g .hl-g svg [fill="currentColor"] { fill: currentColor; }
+.hc-job-g .hl-g > svg { filter: drop-shadow(var(--mark-boost) 0 0 currentColor) drop-shadow(0 var(--mark-boost) 0 currentColor); }
+
+/* a word with a drawing: a button is an atomic inline, so it keeps the word and drawing together */
+.hl-hobby { display: inline; white-space: nowrap; cursor: default; }
+.hl-hw { text-decoration: underline dotted 1.5px; text-decoration-color: var(--line); text-underline-offset: 0.26em; }
+.hl-hobby.is-on .hl-hw { text-decoration-color: var(--ink); }
+
+/* ---------------------------------------------------------------- contact */
+.hc-ct-big { display: flex; align-items: center; gap: 0.4rem; }
+.hc-ct-copy { position: relative; display: inline-grid; place-items: center; width: 2rem; height: 2rem; margin-block: -0.5rem; border-radius: 6px; color: var(--muted); }
+.hc-ct-copy:hover, .hc-ct-copy:focus-visible, .hc-ct-copy.is-copied { color: var(--ink); }
+.hc-ct-copy svg { width: 1rem; height: 1rem; stroke-width: 1.8; }
+.hc-cpi { display: inline-grid; place-items: center; }
+.hc-cpi-i { grid-area: 1 / 1; display: inline-grid; place-items: center; }
+.hc-ct-small { display: flex; gap: 0.35rem; margin: 0.85rem 0 0 -0.5rem; }
+.hc-ct-li { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: 7px; color: color-mix(in srgb, var(--ink) 70%, var(--bg)); }
+.hc-ct-li:hover, .hc-ct-li:focus-visible { color: var(--ink); }
+.hc-ct-li svg { width: 1.45rem; height: 1.45rem; stroke-width: 1.5; }
+.hc-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------------------------------------------------------------- bottom blur */
+/* A progressive blur: stacked backdrop-filter layers, each masked to a band, stronger toward the
+   bottom edge, plus a faint wash of the paper colour so text dissolves rather than smears. The page
+   ends with room for it, so the last section can scroll clear. */
+.hl::after { content: ""; display: block; height: calc(clamp(4.5rem, 13vh, 8rem) * 0.75); }
+.hl-blur { position: fixed; inset: auto 0 0 0; height: clamp(4.5rem, 13vh, 8rem); z-index: 80; pointer-events: none; }
+.hl-blur > i { position: absolute; inset: 0; display: block; }
+.hl-blur > i:nth-child(1) { backdrop-filter: blur(0.5px); -webkit-backdrop-filter: blur(0.5px); mask-image: linear-gradient(to bottom, transparent 0%, #000 25%, #000 50%, transparent 75%); }
+.hl-blur > i:nth-child(2) { backdrop-filter: blur(1.5px); -webkit-backdrop-filter: blur(1.5px); mask-image: linear-gradient(to bottom, transparent 25%, #000 50%, #000 75%, transparent 100%); }
+.hl-blur > i:nth-child(3) { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); mask-image: linear-gradient(to bottom, transparent 50%, #000 75%, #000 100%); }
+.hl-blur > i:nth-child(4) { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); mask-image: linear-gradient(to bottom, transparent 75%, #000 100%); }
+.hl-blur > i:nth-child(5) { background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--bg) 70%, transparent)); }
+
+/* ---------------------------------------------------------------- phones */
+@media (max-width: 759px) {
+  .hc-intro { padding-top: max(2.5rem, 50svh - 13rem); }
+  .hc-sec { padding-top: 4.5rem; }
+  .hc-intro + .hc-sec { padding-top: 5rem; }
+}
+@media (max-width: 560px) {
+  .hc-ct-big { font-size: 1.15rem; }
+}
+@media (max-width: 480px) {
+  .hc-dl { grid-template-columns: minmax(0, 1fr); row-gap: 0.05rem; }
+  /* the stacked labels: a touch bigger, 10.5px is small on a phone */
+  .hc-dl dt { font-size: 11.5px; }
+  .hc-dl dd { margin-bottom: 0.65rem; }
+}
+/* touch screens: 44px hit areas for the icon buttons, same look (each row shifts left so its
+   first icon stays on the text edge) */
+@media (pointer: coarse) {
+  .hc-socials { gap: 0.3rem 0.25rem; margin-left: -0.725rem; }
+  .hc-social { padding: 0.725rem; margin-block: -0.725rem; }
+  .hc-ct-copy { width: 2.75rem; height: 2.75rem; margin: -0.875rem -0.375rem; }
+  .hc-ct-small { gap: 0.1rem; margin-left: -0.65rem; }
+  .hc-ct-li { width: 2.75rem; height: 2.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl-enter { animation: none; }
+}

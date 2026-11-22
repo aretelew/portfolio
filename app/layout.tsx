@@ -11,8 +11,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "AR - Portfolio",
-  description: "Software developer, quant researcher, and design engineer. Engineering technologies for a smarter future.",
+  title: "aretelew",
+  description: "I like building things that make people better at what they do, not replace them.",
 };
 
 export default function RootLayout({
