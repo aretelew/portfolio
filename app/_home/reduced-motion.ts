@@ -10,7 +10,12 @@ function subscribe(cb: () => void) {
   return () => mq.removeEventListener("change", cb);
 }
 
-/** True when the visitor asked for reduced motion (false while rendering on the server). */
+/** Whether the visitor asked for reduced motion, read now (browser only). */
+export function prefersReducedMotion(): boolean {
+  return window.matchMedia(QUERY).matches;
+}
+
+/** The same, as state that follows the setting (false while rendering on the server). */
 export function usePrefersReducedMotion(): boolean {
-  return useSyncExternalStore(subscribe, () => window.matchMedia(QUERY).matches, () => false);
+  return useSyncExternalStore(subscribe, prefersReducedMotion, () => false);
 }

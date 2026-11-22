@@ -91,6 +91,11 @@ html.dark:has(.hl) { background: #0f1216; }
 .hc-social { display: inline-flex; padding: 0.5rem; margin-block: -0.5rem; color: color-mix(in srgb, var(--ink) 70%, var(--bg)); }
 .hc-social:hover, .hc-social:focus-visible { color: var(--ink); }
 .hc-social svg { width: 1.3rem; height: 1.3rem; stroke-width: 1.6; }
+.hc-theme { cursor: pointer; }
+/* the toggle shows the theme it switches to: a sun in dark, a moon in light */
+html.dark .hc-theme-moon, html:not(.dark) .hc-theme-sun { display: none; }
+/* the theme switch: no default cross-fade, the new snapshot is wiped in over the old (ThemeToggle) */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
 /* ---------------------------------------------------------------- sections */
 .hc-sec { padding-top: 6.25rem; scroll-margin-top: 1.5rem; }

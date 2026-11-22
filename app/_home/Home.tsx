@@ -9,6 +9,7 @@ import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { DrawnWord, Mark, useActive, type Drawing } from "./active";
 import { Contact, EMAIL } from "./Contact";
 import { fontVars } from "./fonts";
+import { ThemeToggle } from "./ThemeToggle";
 import Cad, { meta as cadMeta } from "./glyphs/cad";
 import Car from "./glyphs/motorsports";
 import Polish, { meta as polishMeta } from "./glyphs/polish";
@@ -124,6 +125,7 @@ export default function Home() {
             <a className="hc-social" href="https://linkedin.com/in/aretelew" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn">
               <FiLinkedin aria-hidden />
             </a>
+            <ThemeToggle className="hc-social hc-theme" />
           </p>
         </section>
 
