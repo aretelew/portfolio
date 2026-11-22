@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- The tab icon: a dot in the site's ink (--ink in app/_home/home.css), flipped for dark tabs.
+       app/favicon.ico is the same dot, in the dark theme's muted grey (#9a9a91) so it reads on
+       either tab, for browsers without SVG icons; redraw it if this changes. -->
+  <style>
+    circle { fill: #1c1d19; }
+    @media (prefers-color-scheme: dark) { circle { fill: #e7e3d7; } }
+  </style>
+  <circle cx="16" cy="16" r="10" />
+</svg>
